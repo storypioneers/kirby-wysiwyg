@@ -31,7 +31,7 @@ class MediumField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'medium-editor-2.1.0.js',
+            'medium-editor-2.1.0.min.js',
             'medium-button-1.1.min.js',
             'md-3.0.2.min.js',
             'medium.js',
