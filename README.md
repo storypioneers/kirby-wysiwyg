@@ -13,6 +13,10 @@ In your blueprints, replace the `textarea` fields with `medium` field (where app
 
 ## Options
 
+The Kirby Media Field has some global options that you might want to use to alter the fields functionality to suit your specific needs. Below you'll find a list of all available options which can be set from your projects global `config.php` file.
+
+* **field.medium.buttons**: Define a list of buttons to display in the editor toolbar. Currently supported button types are: `header1`, `header2`, `bold`, `italic`, `anchor`, `quote`, `unorderedlist`, `orderedlist`, `subscript`, `superscript`, `del`, `ins` and `mark`. Please note that the order in which you list the button names relates the display order in the toolbar.
+
 * **field.medium.header-style**: Define your preferred heading style. Choose between `setext` (underlined) or `atx` (# Heading 1 and ## Heading 2). Please note that this only affects H1 and H2 headings. All headings of lower priority will always use the ATX style.
 
 ## Known Issues

@@ -6,56 +6,43 @@ MediumEditorField = (function($){
      */
     function init() {
 
+        var editorSelector  = '.medium-editor',
+            $editorElements = $(editorSelector),
+            editorButtons   = $editorElements.first().data('buttons-config').split(','),
+            editor;
+
         /*
             Set up medium editor
          */
-        var editorSelector = '.medium-editor',
-            editorElements = $(editorSelector).attr('type', 'demo'),
-            editor         = new MediumEditor(editorSelector, {
-                cleanPastedHTML: true,
-                firstHeader:     'h2',
-                secondHeader:    'h3',
-                buttonLabels:    'fontawesome',
-                buttons: [
-                    'header1',
-                    'header2',
-                    'bold',
-                    'italic',
-                    'anchor',
-                    'quote',
-                    'unorderedlist',
-                    'orderedlist',
-                    'subscript',
-                    'superscript',
-                    'del',
-                    'ins',
-                    'mark'
-                ],
-                extensions: {
-                    'del': new MediumButton({
-                        label: '<i class="fa fa-strikethrough"></i>',
-                        start: '<del>',
-                        end:   '</del>'
-                   }),
-                   'ins': new MediumButton({
-                       label: 'INS',
-                       start: '<ins>',
-                       end:   '</ins>'
-                  }),
-                  'mark': new MediumButton({
-                      label: 'MARK',
-                      start: '<mark>',
-                      end:   '</mark>'
-                 }),
-               }
-            });
-
-        // jQuery.hotkeys.textAcceptingInputTypes.push('medium-editor');
+        editor = new MediumEditor(editorSelector, {
+            cleanPastedHTML: true,
+            firstHeader:     'h2',
+            secondHeader:    'h3',
+            buttonLabels:    'fontawesome',
+            buttons:         editorButtons,
+            extensions: {
+                'del': new MediumButton({
+                    label: '<i class="fa fa-strikethrough"></i>',
+                    start: '<del>',
+                    end:   '</del>'
+                }),
+                'ins': new MediumButton({
+                    label: 'INS',
+                    start: '<ins>',
+                    end:   '</ins>'
+                }),
+                'mark': new MediumButton({
+                    label: 'MARK',
+                    start: '<mark>',
+                    end:   '</mark>'
+                }),
+           }
+        });
 
         /*
             Observe changes to editor fields
          */
-        $(editorElements).on('input', updateStorage);
+        $editorElements.on('input', updateStorage);
     }
 
     /**
@@ -70,8 +57,8 @@ MediumEditorField = (function($){
         editorStorageElement.text(editorElement.html());
     }
 
-    /*
-        Publish public init method.
+    /**
+     * Publish public init method
      */
     return {
         init: init
