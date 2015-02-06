@@ -26,37 +26,41 @@ class MediumField extends BaseField {
      * Define frontend assets
      *
      * @since 1.0.0
-     *
      * @var array
      */
     public static $assets = array(
         'js' => array(
-            'medium-editor-2.1.0.min.js',
+            'medium-editor-2.2.0.min.js',
             'medium-button-1.1.min.js',
-            'md-3.0.2.min.js',
             'medium.js',
         ),
         'css' => array(
-            'medium-editor-2.1.0.css',
-            'medium-editor-theme-2.1.0.css',
+            'medium-editor-2.2.0.css',
+            'medium-editor-theme-2.2.0.css',
             'medium.css',
         ),
     );
 
     /**
-     * Field configuration
+     * Array of buttons to display in the editor toolbar
      *
      * @since 1.0.0
-     *
      * @var array
      */
-    protected $config = array();
+    public $buttons;
+
+    /**
+     * Heading markdown style to use in output
+     *
+     * @since 1.0.0
+     * @var string
+     */
+    protected $headingStyle;
 
     /**
      * Default configuration values
      *
      * @since 1.0.0
-     *
      * @var array
      */
     protected $defaults = array(
@@ -75,7 +79,10 @@ class MediumField extends BaseField {
             'ins',
             'mark',
         ),
-        'heading-style' => 'atx',
+        'heading-style'  => 'atx',
+        'double-returns' => true,
+        'first-header'   => 'h2',
+        'second-header'  => 'h3',
     );
 
     /**
@@ -88,18 +95,49 @@ class MediumField extends BaseField {
     public function __construct()
     {
         /*
-            Load button configuration
+            (1) Load button configuration
          */
-        $this->config['buttons'] = c::get('field.medium.buttons', false);
-        if(!is_array($this->config['buttons']))
+        $this->buttons = c::get('field.medium.buttons', false);
+        if(!is_array($this->buttons) or (count($this->buttons) <= 0))
         {
-            $this->config['buttons'] = $this->defaults['buttons'];
+            $this->buttons = $this->defaults['buttons'];
         }
 
         /*
-            Load heading style configuration
+            (2) Load heading style configuration
          */
-        $this->config['heading-style'] = c::get('field.medium.heading-style', $this->defaults['heading-style']);
+        $this->headingStyle = c::get('field.medium.heading-style', false);
+        if(!in_array($this->headingStyle, array('atx', 'setext')))
+        {
+            $this->headingStyle = $this->defaults['heading-style'];
+        }
+
+        /*
+            (3) Load double returns configuration
+         */
+        $this->doubleReturns = c::get('field.medium.double-returns', null);
+        if(!is_bool($this->doubleReturns))
+        {
+            $this->doubleReturns = $this->defaults['double-returns'];
+        }
+
+        /*
+            (4) Load first header configuration
+         */
+        $this->firstHeader = c::get('field.medium.first-header', 'h5');
+        if(!in_array($this->firstHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
+        {
+            $this->firstHeader = $this->defaults['first-header'];
+        }
+
+        /*
+            (5) Load second header configuration
+         */
+        $this->secondHeader = c::get('field.medium.second-header', 'h6');
+        if(!in_array($this->secondHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
+        {
+            $this->secondHeader = $this->defaults['second-header'];
+        }
     }
 
     /**
@@ -158,8 +196,11 @@ class MediumField extends BaseField {
         $editor->addClass('input');
         $editor->addClass('medium-editor');
         $editor->data(array(
-            'storage-input-id' => $this->id(),
-            'buttons-config'   => implode(',', $this->config['buttons']),
+            'storage'        => $this->id(),
+            'buttons'        => implode(',', $this->buttons),
+            'double-returns' => $this->doubleReturns,
+            'first-header'   => $this->firstHeader,
+            'second-header'  => $this->secondHeader,
         ));
 
         /*
@@ -206,7 +247,7 @@ class MediumField extends BaseField {
     {
         $converter = new HTML_To_Markdown();
         $converter->set_option('strip_tags', false);
-        $converter->set_option('header_style', $this->config['heading-style']);
+        $converter->set_option('header_style', $this->headingStyle);
         return $converter->convert($html);
     }
 
