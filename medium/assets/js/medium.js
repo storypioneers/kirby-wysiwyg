@@ -25,8 +25,8 @@ MediumEditorField = (function($){
                 forcePlainText:      true,
                 buttonLabels:        'fontawesome',
                 disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
-                firstHeader:         'h2',
-                secondHeader:        'h3',
+                firstHeader:         $editorElement.data('first-header'),
+                secondHeader:        $editorElement.data('second-header'),
                 buttons:             $editorElement.data('buttons').split(','),
                 extensions: {
                     'del': new MediumButton({

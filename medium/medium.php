@@ -82,6 +82,8 @@ class MediumField extends BaseField {
         ),
         'heading-style'  => 'atx',
         'double-returns' => true,
+        'first-header'   => 'h2',
+        'second-header'  => 'h3',
     );
 
     /**
@@ -112,12 +114,30 @@ class MediumField extends BaseField {
         }
 
         /*
-            (2) Load double returns configuration
+            (3) Load double returns configuration
          */
         $this->doubleReturns = c::get('field.medium.double-returns', null);
         if(!is_bool($this->doubleReturns))
         {
             $this->doubleReturns = $this->defaults['double-returns'];
+        }
+
+        /*
+            (4) Load first header configuration
+         */
+        $this->firstHeader = c::get('field.medium.first-header', 'h5');
+        if(!in_array($this->firstHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
+        {
+            $this->firstHeader = $this->defaults['first-header'];
+        }
+
+        /*
+            (5) Load second header configuration
+         */
+        $this->secondHeader = c::get('field.medium.second-header', 'h6');
+        if(!in_array($this->secondHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
+        {
+            $this->secondHeader = $this->defaults['second-header'];
         }
     }
 
@@ -180,6 +200,8 @@ class MediumField extends BaseField {
             'storage'        => $this->id(),
             'buttons'        => implode(',', $this->buttons),
             'double-returns' => $this->doubleReturns,
+            'first-header'   => $this->firstHeader,
+            'second-header'  => $this->secondHeader,
         ));
 
         /*
