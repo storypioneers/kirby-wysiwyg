@@ -158,8 +158,8 @@ class MediumField extends BaseField {
         $editor->addClass('input');
         $editor->addClass('medium-editor');
         $editor->data(array(
-            'storage-input-id' => $this->id(),
             'buttons-config'   => implode(',', $this->config['buttons']),
+            'storage' => $this->id(),
         ));
 
         /*

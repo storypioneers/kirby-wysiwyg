@@ -53,7 +53,7 @@ MediumEditorField = (function($){
     function updateStorage(e) {
 
         var editorElement        = $(e.target),
-            editorStorageId      = editorElement.data('storage-input-id'),
+            editorStorageId      = editorElement.data('storage'),
             editorStorageElement = $('#' + editorStorageId);
 
         editorStorageElement.text(editorElement.html());
