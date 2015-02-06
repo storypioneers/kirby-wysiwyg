@@ -32,7 +32,6 @@ class MediumField extends BaseField {
         'js' => array(
             'medium-editor-2.2.0.min.js',
             'medium-button-1.1.min.js',
-            'md-3.0.2.min.js',
             'medium.js',
         ),
         'css' => array(
