@@ -25,7 +25,7 @@ The Kirby Media Field has some global options that you might want to use to alte
 
 Right now, the panels keyboard shortcuts (*f* to upload a file, *g* for global search) interfere with the Medium Editor Field. Of course, the execution of the shortcuts will be omitted when you (= the user) have an input element, like `<input>`, `<textarea>`, etc focussed. However, the Medium Editor Field uses a brand new HTML5 technology called "contenteditable" elements. This way, you don't write your content inside one of those known `<input>` elements and the panel doesn't know it should not fire the shortcut actions.
 
-We already submitted a bug report to the makes of Kirby and hopefully, this issue will be fixed with the next update. **But in the meantime, there's a quick fix to make the Medium Editor Field work as expected**:
+We already submitted a [bug report](https://github.com/getkirby/panel/issues/347) and a [pull request](https://github.com/getkirby/panel/pull/353) to the makers of Kirby and hopefully, this issue will be fixed with the next update. **But in the meantime, there's a quick fix to make the Medium Editor Field work as expected**:
 
 * Navigate to the panel js directory of your Kirby setup (`<project>/panel/assets/js/`).
 * Open the panel main js resource file `panel.js`.
