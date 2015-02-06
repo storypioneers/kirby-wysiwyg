@@ -80,7 +80,8 @@ class MediumField extends BaseField {
             'ins',
             'mark',
         ),
-        'heading-style' => 'atx',
+        'heading-style'  => 'atx',
+        'double-returns' => true,
     );
 
     /**
@@ -107,7 +108,16 @@ class MediumField extends BaseField {
         $this->headingStyle = c::get('field.medium.heading-style', false);
         if(!in_array($this->headingStyle, array('atx', 'setext')))
         {
-            $this->headingStyle = $this->defaults['heading-style']
+            $this->headingStyle = $this->defaults['heading-style'];
+        }
+
+        /*
+            (2) Load double returns configuration
+         */
+        $this->doubleReturns = c::get('field.medium.double-returns', null);
+        if(!is_bool($this->doubleReturns))
+        {
+            $this->doubleReturns = $this->defaults['double-returns'];
         }
     }
 
@@ -167,8 +177,9 @@ class MediumField extends BaseField {
         $editor->addClass('input');
         $editor->addClass('medium-editor');
         $editor->data(array(
-            'storage' => $this->id(),
-            'buttons' => implode(',', $this->buttons),
+            'storage'        => $this->id(),
+            'buttons'        => implode(',', $this->buttons),
+            'double-returns' => $this->doubleReturns,
         ));
 
         /*

@@ -8,55 +8,64 @@ MediumEditorField = (function($){
 
         var editorSelector  = '.medium-editor',
             $editorElements = $(editorSelector),
-            editorButtons   = $editorElements.first().data('buttons').split(','),
-            editor;
+            editors         = [];
 
         /*
-            Set up medium editor
+            Create an instance of the editor for each field
          */
-        editor = new MediumEditor(editorSelector, {
-            cleanPastedHTML:     true,
-            disableDoubleReturn: true,
-            firstHeader:         'h2',
-            forcePlainText:      true,
-            secondHeader:        'h3',
-            buttonLabels:        'fontawesome',
-            buttons:             editorButtons,
-            extensions: {
-                'del': new MediumButton({
-                    label: '<i class="fa fa-strikethrough"></i>',
-                    start: '<del>',
-                    end:   '</del>'
-                }),
-                'ins': new MediumButton({
-                    label: 'INS',
-                    start: '<ins>',
-                    end:   '</ins>'
-                }),
-                'mark': new MediumButton({
-                    label: 'MARK',
-                    start: '<mark>',
-                    end:   '</mark>'
-                }),
-           }
+        $editorElements.each(function() {
+
+            $editorElement = $(this);
+
+            /*
+                Create editor instance
+             */
+            editors.push(new MediumEditor(this, {
+                cleanPastedHTML:     true,
+                forcePlainText:      true,
+                buttonLabels:        'fontawesome',
+                disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
+                firstHeader:         'h2',
+                secondHeader:        'h3',
+                buttons:             $editorElement.data('buttons').split(','),
+                extensions: {
+                    'del': new MediumButton({
+                        label: '<i class="fa fa-strikethrough"></i>',
+                        start: '<del>',
+                        end:   '</del>'
+                    }),
+                    'ins': new MediumButton({
+                        label: 'INS',
+                        start: '<ins>',
+                        end:   '</ins>'
+                    }),
+                    'mark': new MediumButton({
+                        label: 'MARK',
+                        start: '<mark>',
+                        end:   '</mark>'
+                    }),
+               }
+            }));
+
+            /*
+                Observe changes to editor fields
+             */
+            $editorElement.on('input', {
+                $editorElement:  $editorElement,
+                $storageElement: $('#' + $editorElement.data('storage'))
+            }, updateStorage);
+
         });
 
-        /*
-            Observe changes to editor fields
-         */
-        $editorElements.on('input', updateStorage);
     }
 
     /**
      * Copy contents of editor element into the editor "storage" <textarea>
      */
-    function updateStorage(e) {
+    function updateStorage(event) {
 
-        var editorElement        = $(e.target),
-            editorStorageId      = editorElement.data('storage'),
-            editorStorageElement = $('#' + editorStorageId);
+        event.data.$storageElement.text($editorElement.html());
 
-        editorStorageElement.text(editorElement.html());
     }
 
     /**
