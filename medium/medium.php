@@ -43,20 +43,20 @@ class MediumField extends BaseField {
     );
 
     /**
-     * Field configuration
-     *
-     * @since 1.0.0
-     * @var array
-     */
-    protected $config = array();
-
-    /**
      * Array of buttons to display in the editor toolbar
      *
      * @since 1.0.0
      * @var array
      */
     public $buttons;
+
+    /**
+     * Heading markdown style to use in output
+     *
+     * @since 1.0.0
+     * @var string
+     */
+    protected $headingStyle;
 
     /**
      * Default configuration values
@@ -93,7 +93,7 @@ class MediumField extends BaseField {
     public function __construct()
     {
         /*
-            Load button configuration
+            (1) Load button configuration
          */
         $this->buttons = c::get('field.medium.buttons', false);
         if(!is_array($this->buttons) or (count($this->buttons) <= 0))
@@ -102,9 +102,13 @@ class MediumField extends BaseField {
         }
 
         /*
-            Load heading style configuration
+            (2) Load heading style configuration
          */
-        $this->config['heading-style'] = c::get('field.medium.heading-style', $this->defaults['heading-style']);
+        $this->headingStyle = c::get('field.medium.heading-style', false);
+        if(!in_array($this->headingStyle, array('atx', 'setext')))
+        {
+            $this->headingStyle = $this->defaults['heading-style']
+        }
     }
 
     /**
@@ -211,7 +215,7 @@ class MediumField extends BaseField {
     {
         $converter = new HTML_To_Markdown();
         $converter->set_option('strip_tags', false);
-        $converter->set_option('header_style', $this->config['heading-style']);
+        $converter->set_option('header_style', $this->headingStyle);
         return $converter->convert($html);
     }
 
