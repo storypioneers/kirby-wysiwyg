@@ -14,6 +14,15 @@ require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
 class MediumField extends BaseField {
 
     /**
+     * Matches only opening and closing <span> tags with all
+     * their attributes. This will be used to strip them from
+     * the editor output on saving the field.
+     *
+     * @since 1.0.0
+     */
+    const SPAN_REMOVAL_REGEX = '/<\s*\/?\s*span[^>]*>/i';
+
+    /**
      * Define frontend assets
      *
      * @since 1.0.0
@@ -163,8 +172,10 @@ class MediumField extends BaseField {
     /**
      * Convert result to markdown
      *
-     * This converts the HTML we get from the <textarea> to markdown
-     * before it get's stored in the content file.
+     * (1) This converts the HTML we get from the <textarea> to markdown
+     *     before it get's stored in the content file.
+     * (2) Strip all wild <span> tags from the content as they might be inserted
+     *     by the JS editor.
      *
      * @since 1.0.0
      *
@@ -172,7 +183,15 @@ class MediumField extends BaseField {
      */
     public function result()
     {
-        return $this->convertToMarkdown(parent::result());
+        /*
+            (1) Convert to markdown
+         */
+        $result = $this->convertToMarkdown(parent::result());
+
+        /*
+            (2) Strip <span> elements
+         */
+        return preg_replace(self::SPAN_REMOVAL_REGEX, '', $result);
     }
 
     /**

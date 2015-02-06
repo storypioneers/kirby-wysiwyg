@@ -15,11 +15,13 @@ MediumEditorField = (function($){
             Set up medium editor
          */
         editor = new MediumEditor(editorSelector, {
-            cleanPastedHTML: true,
-            firstHeader:     'h2',
-            secondHeader:    'h3',
-            buttonLabels:    'fontawesome',
-            buttons:         editorButtons,
+            cleanPastedHTML:     true,
+            disableDoubleReturn: true,
+            firstHeader:         'h2',
+            forcePlainText:      true,
+            secondHeader:        'h3',
+            buttonLabels:        'fontawesome',
+            buttons:             editorButtons,
             extensions: {
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
