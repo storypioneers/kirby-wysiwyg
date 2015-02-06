@@ -8,7 +8,7 @@ MediumEditorField = (function($){
 
         var editorSelector  = '.medium-editor',
             $editorElements = $(editorSelector),
-            editorButtons   = $editorElements.first().data('buttons-config').split(','),
+            editorButtons   = $editorElements.first().data('buttons').split(','),
             editor;
 
         /*

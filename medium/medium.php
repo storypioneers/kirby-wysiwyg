@@ -26,7 +26,6 @@ class MediumField extends BaseField {
      * Define frontend assets
      *
      * @since 1.0.0
-     *
      * @var array
      */
     public static $assets = array(
@@ -47,16 +46,22 @@ class MediumField extends BaseField {
      * Field configuration
      *
      * @since 1.0.0
-     *
      * @var array
      */
     protected $config = array();
 
     /**
+     * Array of buttons to display in the editor toolbar
+     *
+     * @since 1.0.0
+     * @var array
+     */
+    public $buttons;
+
+    /**
      * Default configuration values
      *
      * @since 1.0.0
-     *
      * @var array
      */
     protected $defaults = array(
@@ -90,10 +95,10 @@ class MediumField extends BaseField {
         /*
             Load button configuration
          */
-        $this->config['buttons'] = c::get('field.medium.buttons', false);
-        if(!is_array($this->config['buttons']))
+        $this->buttons = c::get('field.medium.buttons', false);
+        if(!is_array($this->buttons) or (count($this->buttons) <= 0))
         {
-            $this->config['buttons'] = $this->defaults['buttons'];
+            $this->buttons = $this->defaults['buttons'];
         }
 
         /*
@@ -158,8 +163,8 @@ class MediumField extends BaseField {
         $editor->addClass('input');
         $editor->addClass('medium-editor');
         $editor->data(array(
-            'buttons-config'   => implode(',', $this->config['buttons']),
             'storage' => $this->id(),
+            'buttons' => implode(',', $this->buttons),
         ));
 
         /*
