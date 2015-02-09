@@ -5,11 +5,14 @@ require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
 /**
  * Medium Editor Field for Kirby Panel
  *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  * @version   1.0.0
  * @author    Jonas Döbertin <hello@jd-powered.net>
  * @link      https://github.com/storypioneers/kirby-wysiwyg
- * @copyright Jonas Döbertin
- * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @copyright digital storytelling pioneers
+ * @license   MIT License
  */
 class MediumField extends BaseField {
 
