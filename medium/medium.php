@@ -158,7 +158,10 @@ class MediumField extends BaseField {
             'id'           => $this->id()
         ));
         $input->html($this->convertToHtml($this->value() ?: ''));
-        $input->data('field', 'mediumeditorfield');
+        $input->data(array(
+            'field'  => 'mediumeditorfield',
+            'editor' => '#' . $this->id() . '-editor',
+        ));
         return $input;
     }
 
@@ -195,6 +198,7 @@ class MediumField extends BaseField {
         $editor = new Brick('div');
         $editor->addClass('input');
         $editor->addClass('medium-editor');
+        $editor->attr('id', $this->id() . '-editor');
         $editor->data(array(
             'storage'        => $this->id(),
             'buttons'        => implode(',', $this->buttons),
