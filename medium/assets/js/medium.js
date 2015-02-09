@@ -1,70 +1,58 @@
 
 MediumEditorField = (function($){
 
+    var editors = [];
+
     /**
      * Initialization
      */
-    function init() {
-
-        var editorSelector  = '.medium-editor',
-            $editorElements = $(editorSelector),
-            editors         = [];
+    function init($fieldElement) {
 
         /*
-            Create an instance of the editor for each field
+            Find related editor element
          */
-        $editorElements.each(function() {
+        var $editorElement = $($fieldElement.data('editor'));
 
-            $editorElement = $(this);
+        /*
+            Create editor instance
+         */
+        editors.push(new MediumEditor($editorElement.get(0), {
+            cleanPastedHTML:     true,
+            forcePlainText:      true,
+            buttonLabels:        'fontawesome',
+            disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
+            firstHeader:         $editorElement.data('first-header'),
+            secondHeader:        $editorElement.data('second-header'),
+            buttons:             $editorElement.data('buttons').split(','),
+            extensions: {
+                'del': new MediumButton({
+                    label: '<i class="fa fa-strikethrough"></i>',
+                    start: '<del>',
+                    end:   '</del>'
+                }),
+                'ins': new MediumButton({
+                    label: 'INS',
+                    start: '<ins>',
+                    end:   '</ins>'
+                }),
+                'mark': new MediumButton({
+                    label: 'MARK',
+                    start: '<mark>',
+                    end:   '</mark>'
+                }),
+           }
+        }));
 
-            /*
-                Create editor instance
-             */
-            editors.push(new MediumEditor(this, {
-                cleanPastedHTML:     true,
-                forcePlainText:      true,
-                buttonLabels:        'fontawesome',
-                disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
-                firstHeader:         $editorElement.data('first-header'),
-                secondHeader:        $editorElement.data('second-header'),
-                buttons:             $editorElement.data('buttons').split(','),
-                extensions: {
-                    'del': new MediumButton({
-                        label: '<i class="fa fa-strikethrough"></i>',
-                        start: '<del>',
-                        end:   '</del>'
-                    }),
-                    'ins': new MediumButton({
-                        label: 'INS',
-                        start: '<ins>',
-                        end:   '</ins>'
-                    }),
-                    'mark': new MediumButton({
-                        label: 'MARK',
-                        start: '<mark>',
-                        end:   '</mark>'
-                    }),
-               }
-            }));
-
-            /*
-                Observe changes to editor fields
-             */
-            $editorElement.on('input', {
-                $editorElement:  $editorElement,
-                $storageElement: $('#' + $editorElement.data('storage'))
-            }, updateStorage);
-
+        /*
+            Observe changes to editor fields and update storage
+            <textarea> element accordingly.
+         */
+        $editorElement.on('input', {
+            $editorElement:  $editorElement,
+            $storageElement: $('#' + $editorElement.data('storage'))
+        }, function(event) {
+            event.data.$storageElement.text(event.data.$editorElement.html());
         });
-
-    }
-
-    /**
-     * Copy contents of editor element into the editor "storage" <textarea>
-     */
-    function updateStorage(event) {
-
-        event.data.$storageElement.text($editorElement.html());
 
     }
 
@@ -81,9 +69,12 @@ MediumEditorField = (function($){
 /*
     Tell the Panel to run our initialization.
     https://github.com/getkirby/panel/issues/228#issuecomment-58379016
+
+    This callback will fire for every Medium Editor Field on the current
+    panel page.
  */
 (function($) {
     $.fn.mediumeditorfield = function() {
-        MediumEditorField.init();
+        MediumEditorField.init(this);
     };
 })(jQuery);
