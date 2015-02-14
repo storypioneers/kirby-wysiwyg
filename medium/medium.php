@@ -3,17 +3,16 @@
 require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
 
 /**
- * Medium Editor Field for Kirby Panel
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * WYSIWYG Editor Field for Kirby Panel
  *
  * @version   1.0.0
  * @author    Jonas Döbertin <hello@jd-powered.net>
  * @link      https://github.com/storypioneers/kirby-wysiwyg
- * @copyright digital storytelling pioneers
- * @license   MIT License
+ * @copyright digital storytelling pioneers <http://storypioneers.com>
+ * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
  */
+
+
 class MediumField extends BaseField {
 
     /**
@@ -33,13 +32,13 @@ class MediumField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'medium-editor-2.2.0.min.js',
+            'medium-editor-2.3.0.min.js',
             'medium-button-1.1.min.js',
             'medium.js',
         ),
         'css' => array(
-            'medium-editor-2.2.0.css',
-            'medium-editor-theme-2.2.0.css',
+            'medium-editor-2.3.0.min.css',
+            'medium-editor-theme-kirby-1.0.0.css',
             'medium.css',
         ),
     );
