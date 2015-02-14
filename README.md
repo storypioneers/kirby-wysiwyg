@@ -7,6 +7,7 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 **Authors**: [@storypioneers/kirby](https://github.com/orgs/storypioneers/teams/kirby)  
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)  
 
+![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
 ## Installation
 
