@@ -34,6 +34,7 @@ class WysiwygField extends BaseField {
         'js' => array(
             'medium-editor-2.4.6.min.js',
             'medium-button-1.1.min.js',
+            'bugfix.js',
             'wysiwyg.js',
         ),
         'css' => array(
