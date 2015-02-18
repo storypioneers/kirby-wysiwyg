@@ -1,66 +1,66 @@
 
-.medium-editor-input {
+.wysiwyg-editor-input {
     display: none;
 }
 
-.medium-editor {
+.wysiwyg-editor {
     min-height: 10em;
 }
 
-    .medium-editor h2 {
+    .wysiwyg-editor h2 {
         font-size: 1.6em;
         font-weight: bold;
         margin-bottom: 1em;
     }
 
-    .medium-editor h3 {
+    .wysiwyg-editor h3 {
         font-size: 1.2em;
         font-weight: bold;
         margin-bottom: 1em;
     }
 
-    .medium-editor p {
+    .wysiwyg-editor p {
         margin-bottom: 1em;
     }
 
-    .medium-editor strong,
-    .medium-editor b {
+    .wysiwyg-editor strong,
+    .wysiwyg-editor b {
         font-weight: bold;
     }
 
-    .medium-editor em,
-    .medium-editor i {
+    .wysiwyg-editor em,
+    .wysiwyg-editor i {
         font-style: italic;
     }
 
-    .medium-editor a {
+    .wysiwyg-editor a {
         text-decoration: underline;
     }
 
-    .medium-editor blockquote {
+    .wysiwyg-editor blockquote {
         margin-bottom: 1em;
         font-style: italic;
         padding-left: 1em;
     }
 
-    .medium-editor ul {
+    .wysiwyg-editor ul {
         list-style: inside square;
     }
 
-    .medium-editor ol {
+    .wysiwyg-editor ol {
         list-style: inside decimal;
     }
 
-    .medium-editor del {
+    .wysiwyg-editor del {
         text-decoration: line-through;
         color: red;
     }
 
-    .medium-editor ins {
+    .wysiwyg-editor ins {
         text-decoration: underline;
         color: green;
     }
 
-    .medium-editor mark {
+    .wysiwyg-editor mark {
         background-color: yellow;
     }

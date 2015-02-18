@@ -1,5 +1,5 @@
 
-MediumEditorField = (function($){
+WysiwygEditorField = (function($){
 
     var editors = [];
 
@@ -74,7 +74,7 @@ MediumEditorField = (function($){
     panel page.
  */
 (function($) {
-    $.fn.mediumeditorfield = function() {
-        MediumEditorField.init(this);
+    $.fn.wysiwygeditorfield = function() {
+        WysiwygEditorField.init(this);
     };
 })(jQuery);
