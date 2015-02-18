@@ -1,15 +1,35 @@
-# Kirby Medium Editor
+# Kirby WYSIWYG Editor
 
-This additional panel field for [Kirby 2](http://getkirby.com), called `medium` allows you to use a medium.com like WYSIWYG editor in the Panel.
+This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like WYSIWYG editor in the Panel.
+
+**Version**: 1.0.0  
+**Requires**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
+**Authors**: [@storypioneers/kirby](https://github.com/orgs/storypioneers/teams/kirby)  
+**License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)  
+
+![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
 ## Installation
 
-1. Copy or link the `medium` directory to your projects `site/fields` folder.
-3. *Optional: Set some configuration options for Kirby Medium Editor in your sites `config.php` file. You can get an overview of all available options further down.*
+1. If not already exists, add a 'fields' folder to your `site/panel` folder and copy or link the entire 'medium' field folder there. Your structure should look like this: 
+
+	site
+		fields
+			medium
+				assests
+				vendor
+				medium.php
+
+2. *Optional: Set some configuration options for Kirby WYSIWYG Editor in your sites `config.php` file. You can get an overview of all available options further down.*
 
 ## Usage
 
-In your blueprints, replace the `textarea` fields with `medium` field (where applicable).
+As soon as you dropped the tags field into your panel folder you can use it in your blueprints: replace the `textarea` fields with `medium` field (where applicable).
+
+	fields:
+		richtext: 
+			label: Text
+			type:  medium
 
 ## Options
 
