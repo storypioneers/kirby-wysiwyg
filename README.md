@@ -3,7 +3,7 @@
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like WYSIWYG editor in the Panel.
 
 **Version**: 1.0.0  
-**Requires**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
+**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
 **Authors**: [@storypioneers/kirby](https://github.com/orgs/storypioneers/teams/kirby)  
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)  
 
