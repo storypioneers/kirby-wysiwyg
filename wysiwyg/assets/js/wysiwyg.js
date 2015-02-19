@@ -1,17 +1,25 @@
 
 WysiwygEditorField = (function($){
 
-    var editors = [];
+    var editors = [],
+        stylesheet;
 
     /**
-     * Initialization
+     * Initialize a single editor element
      */
-    function init($fieldElement) {
+    function initSingleEditor($fieldElement) {
 
         /*
             Find related editor element
          */
-        var $editorElement = $($fieldElement.data('editor'));
+        var $editorElement = $($fieldElement.data('editor')),
+            firstHeader = $editorElement.data('first-header'),
+            secondHeader = $editorElement.data('second-header');
+
+        /*
+            Create dynamic styles
+         */
+        addDynamicCSS($editorElement.attr('id'), firstHeader, secondHeader);
 
         /*
             Create editor instance
@@ -21,8 +29,8 @@ WysiwygEditorField = (function($){
             forcePlainText:      true,
             buttonLabels:        'fontawesome',
             disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
-            firstHeader:         $editorElement.data('first-header'),
-            secondHeader:        $editorElement.data('second-header'),
+            firstHeader:         firstHeader,
+            secondHeader:        secondHeader,
             buttons:             $editorElement.data('buttons').split(','),
             extensions: {
                 'del': new MediumButton({
@@ -53,18 +61,91 @@ WysiwygEditorField = (function($){
         }, function(event) {
             event.data.$storageElement.text(event.data.$editorElement.html());
         });
+    }
 
+    /**
+     * Create dynamic stylesheet
+     *
+     * This allows to add dynamic CSS rules for the editor
+     * heading styles later on.
+     */
+    function initDynamicCSS() {
+        /*
+            Create and prepare <style> element.
+         */
+        var styleElement = document.createElement('style');
+        styleElement.setAttribute('media', 'all');
+        styleElement.appendChild(document.createTextNode('')); // WebKit Hack :-(
+
+        /*
+            Append element to document head and store its
+            stylesheet property for later use.
+         */
+        document.head.appendChild(styleElement);
+        stylesheet = styleElement.sheet;
+    }
+
+    /**
+     * Generate and add dynamic CSS rules for both headings
+     *
+     * @param string id
+     * @param string firstHeader
+     * @param string secondHeader
+     */
+    function addDynamicCSS(id, firstHeader, secondHeader) {
+        /*
+            Build ID and rules strings
+         */
+        var firstHeadingSelector  = '#' + id + ' ' + firstHeader,
+            secondHeadingSelector = '#' + id + ' ' + secondHeader,
+            firstHeadingRules     = 'font-size: 1.6em;',
+            secondHeadingRules    = 'font-size: 1.2em;';
+
+        /*
+            Insert into dynamic stylesheet
+         */
+        insertCSSRule(firstHeadingSelector, firstHeadingRules);
+        insertCSSRule(secondHeadingSelector, secondHeadingRules);
+    }
+
+    /**
+     * Insert CSS rule into our dynamic stylesheet
+     *
+     * @param string selector
+     * @param string rules
+     */
+    function insertCSSRule(selector, rules) {
+        /*
+            Try to use standard insertRule() way first.
+         */
+        if('insertRule' in stylesheet) {
+            stylesheet.insertRule(selector + '{' + rules + '}', 0);
+        }
+
+        /*
+            Otherwise try to use non-standard addRule() way.
+         */
+        else if('addRule' in stylesheet) {
+            stylesheet.addRule(selector, rules);
+        }
     }
 
     /**
      * Publish public init method
      */
     return {
-        init: init
+        initSingleEditor: initSingleEditor,
+        initDynamicCSS:   initDynamicCSS
     }
 
 })(jQuery);
 
+/*
+    Initialize the dynamic stylesheet when loading the page.
+ */
+jQuery(function($) {
+    WysiwygEditorField.initDynamicCSS();
+});
 
 /*
     Tell the Panel to run our initialization.
@@ -75,6 +156,6 @@ WysiwygEditorField = (function($){
  */
 (function($) {
     $.fn.wysiwygeditorfield = function() {
-        WysiwygEditorField.init(this);
+        WysiwygEditorField.initSingleEditor(this);
     };
 })(jQuery);

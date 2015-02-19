@@ -7,14 +7,12 @@
     min-height: 10em;
 }
 
-    .wysiwyg-editor h2 {
-        font-size: 1.6em;
-        font-weight: bold;
-        margin-bottom: 1em;
-    }
-
-    .wysiwyg-editor h3 {
-        font-size: 1.2em;
+    .wysiwyg-editor h1,
+    .wysiwyg-editor h2,
+    .wysiwyg-editor h3,
+    .wysiwyg-editor h4,
+    .wysiwyg-editor h5,
+    .wysiwyg-editor h6 {
         font-weight: bold;
         margin-bottom: 1em;
     }
