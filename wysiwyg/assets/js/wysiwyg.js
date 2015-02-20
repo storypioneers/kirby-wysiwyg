@@ -1,37 +1,34 @@
 
-WysiwygEditorField = (function($){
+WysiwygEditor = (function($, $field) {
 
-    var editors = [],
-        stylesheet;
+    var self = this;
 
-    /**
-     * Initialize a single editor element
-     */
-    function initSingleEditor($fieldElement) {
+    this.$field  = $field;
+    this.$editor = $(self.$field.data('editor'));
+    this.$storage = $('#' + self.$editor.data('storage'));
+    this.editor  = null;
 
-        /*
-            Find related editor element
-         */
-        var $editorElement = $($fieldElement.data('editor')),
-            firstHeader = $editorElement.data('first-header'),
-            secondHeader = $editorElement.data('second-header');
+    this.init = function() {
+
+        var firstHeader     = self.$editor.data('first-header'),
+            secondHeader    = self.$editor.data('second-header');
 
         /*
             Create dynamic styles
          */
-        WysiwygDynamicCSS.add($editorElement.attr('id'), firstHeader, secondHeader);
+        WysiwygDynamicCSS.add(self.$editor.attr('id'), firstHeader, secondHeader);
 
         /*
-            Create editor instance
+            Create MediumEditor instance
          */
-        editors.push(new MediumEditor($editorElement.get(0), {
+        self.editor = new MediumEditor(self.$editor.get(0), {
             cleanPastedHTML:     true,
             forcePlainText:      true,
             buttonLabels:        'fontawesome',
-            disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
+            disableDoubleReturn: !self.$editor.is("[data-double-returns]"),
             firstHeader:         firstHeader,
             secondHeader:        secondHeader,
-            buttons:             $editorElement.data('buttons').split(','),
+            buttons:             self.$editor.data('buttons').split(','),
             extensions: {
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
@@ -49,28 +46,21 @@ WysiwygEditorField = (function($){
                     end:   '</mark>'
                 }),
            }
-        }));
+        });
 
         /*
             Observe changes to editor fields and update storage
             <textarea> element accordingly.
          */
-        $editorElement.on('input', {
-            $editorElement:  $editorElement,
-            $storageElement: $('#' + $editorElement.data('storage'))
-        }, function(event) {
-            event.data.$storageElement.text(event.data.$editorElement.html());
+        self.$editor.on('input', function(event) {
+            self.$storage.text(self.$editor.html());
         });
-    }
 
-    /**
-     * Publish public init method
-     */
-    return {
-        initSingleEditor: initSingleEditor
-    }
+    };
 
-})(jQuery);
+    return this.init();
+
+});
 
 
 var WysiwygDynamicCSS = (function() {
@@ -172,6 +162,18 @@ jQuery(function() {
  */
 (function($) {
     $.fn.wysiwygeditorfield = function() {
-        WysiwygEditorField.initSingleEditor(this);
-    };
+        var $this = $(this);
+
+        if($this.data('WysiwygEditor')) {
+            return $this.data('WysiwygEditor');
+        } else {
+            var wysiwygEditor = new WysiwygEditor($, $this);
+            $this.data('WysiwygEditor', wysiwygEditor);
+            return wysiwygEditor;
+        }
+    }
+
+    // $.fn.wysiwygeditorfield = function() {
+    //     WysiwygEditorField.initSingleEditor(this);
+    // };
 })(jQuery);
