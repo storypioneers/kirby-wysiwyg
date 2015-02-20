@@ -19,7 +19,7 @@ WysiwygEditorField = (function($){
         /*
             Create dynamic styles
          */
-        addDynamicCSS($editorElement.attr('id'), firstHeader, secondHeader);
+        WysiwygDynamicCSS.add($editorElement.attr('id'), firstHeader, secondHeader);
 
         /*
             Create editor instance
@@ -64,12 +64,27 @@ WysiwygEditorField = (function($){
     }
 
     /**
+     * Publish public init method
+     */
+    return {
+        initSingleEditor: initSingleEditor
+    }
+
+})(jQuery);
+
+
+var WysiwygDynamicCSS = (function() {
+
+    var self = this,
+        stylesheet;
+
+    /**
      * Create dynamic stylesheet
      *
      * This allows to add dynamic CSS rules for the editor
      * heading styles later on.
      */
-    function initDynamicCSS() {
+    this.init = function() {
         /*
             Create and prepare <style> element.
          */
@@ -83,8 +98,8 @@ WysiwygEditorField = (function($){
             stylesheet property for later use.
          */
         document.head.appendChild(styleElement);
-        stylesheet = styleElement.sheet;
-    }
+        self.stylesheet = styleElement.sheet;
+    };
 
     /**
      * Generate and add dynamic CSS rules for both headings
@@ -93,7 +108,7 @@ WysiwygEditorField = (function($){
      * @param string firstHeader
      * @param string secondHeader
      */
-    function addDynamicCSS(id, firstHeader, secondHeader) {
+    this.add = function(id, firstHeader, secondHeader) {
         /*
             Build ID and rules strings
          */
@@ -105,9 +120,9 @@ WysiwygEditorField = (function($){
         /*
             Insert into dynamic stylesheet
          */
-        insertCSSRule(firstHeadingSelector, firstHeadingRules);
-        insertCSSRule(secondHeadingSelector, secondHeadingRules);
-    }
+        self.insert(firstHeadingSelector, firstHeadingRules);
+        self.insert(secondHeadingSelector, secondHeadingRules);
+    };
 
     /**
      * Insert CSS rule into our dynamic stylesheet
@@ -115,37 +130,37 @@ WysiwygEditorField = (function($){
      * @param string selector
      * @param string rules
      */
-    function insertCSSRule(selector, rules) {
+    this.insert = function(selector, rules) {
         /*
             Try to use standard insertRule() way first.
          */
-        if('insertRule' in stylesheet) {
-            stylesheet.insertRule(selector + '{' + rules + '}', 0);
+        if('insertRule' in self.stylesheet) {
+            self.stylesheet.insertRule(selector + '{' + rules + '}', 0);
         }
 
         /*
             Otherwise try to use non-standard addRule() way.
          */
         else if('addRule' in stylesheet) {
-            stylesheet.addRule(selector, rules);
+            self.stylesheet.addRule(selector, rules);
         }
     }
 
     /**
-     * Publish public init method
+     * Publish public methods
      */
     return {
-        initSingleEditor: initSingleEditor,
-        initDynamicCSS:   initDynamicCSS
-    }
+        init: this.init,
+        add:  this.add
+    };
 
-})(jQuery);
+})();
 
 /*
     Initialize the dynamic stylesheet when loading the page.
  */
-jQuery(function($) {
-    WysiwygEditorField.initDynamicCSS();
+jQuery(function() {
+    WysiwygDynamicCSS.init();
 });
 
 /*
