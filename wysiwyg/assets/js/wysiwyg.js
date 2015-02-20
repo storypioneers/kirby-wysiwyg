@@ -75,6 +75,7 @@ WysiwygEditorField = (function($){
          */
         var styleElement = document.createElement('style');
         styleElement.setAttribute('media', 'all');
+        styleElement.setAttribute('id', 'wysiwyg-editor-css');
         styleElement.appendChild(document.createTextNode('')); // WebKit Hack :-(
 
         /*
