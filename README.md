@@ -11,16 +11,18 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 
 ## Installation
 
-1. If not already exists, add a `fields` folder to your `site/panel` folder and copy or link the entire `wysiwyg` field folder there. Your structure should look like this:
+If not already exists, add a `fields` folder to your `site/panel` folder and copy or link the entire `wysiwyg` field folder there. Your structure should look like this:
 
-	site
-		fields
-			wysiwyg
-				assests
-				vendor
-				wysiwyg.php
+```
+site/
+	fields/
+		wysiwyg/
+			assests/
+			vendor/
+			wysiwyg.php
+```
 
-2. *Optional: Set some configuration options for Kirby WYSIWYG Editor in your sites `config.php` file. You can get an overview of all available options further down.*
+*Optional: Set some configuration options for Kirby WYSIWYG Editor in your sites `config.php` file. You can get an overview of all available options further down.*
 
 ## Usage
 
