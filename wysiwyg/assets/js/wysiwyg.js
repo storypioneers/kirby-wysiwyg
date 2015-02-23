@@ -1,37 +1,35 @@
 
-WysiwygEditorField = (function($){
+WysiwygEditor = (function($, $field) {
 
-    var editors = [],
-        stylesheet;
+    var self = this;
 
-    /**
-     * Initialize a single editor element
-     */
-    function initSingleEditor($fieldElement) {
+    this.$field        = $field;
+    this.$editor       = $(this.$field.data('editor'));
+    this.$storage      = $('#' + this.$editor.data('storage'));
+    this.firstHeader   = this.$editor.data('first-header');
+    this.secondHeader  = this.$editor.data('second-header');
+    this.doubleReturns = this.$editor.is("[data-double-returns]");
+    this.buttons       = this.$editor.data('buttons').split(',')
+    this.editor        = null;
 
-        /*
-            Find related editor element
-         */
-        var $editorElement = $($fieldElement.data('editor')),
-            firstHeader = $editorElement.data('first-header'),
-            secondHeader = $editorElement.data('second-header');
+    this.init = function() {
 
         /*
             Create dynamic styles
          */
-        addDynamicCSS($editorElement.attr('id'), firstHeader, secondHeader);
+        WysiwygDynamicCSS.add(self.$editor.attr('id'), self.firstHeader, self.secondHeader);
 
         /*
-            Create editor instance
+            Create MediumEditor instance
          */
-        editors.push(new MediumEditor($editorElement.get(0), {
+        self.editor = new MediumEditor(self.$editor.get(0), {
             cleanPastedHTML:     true,
             forcePlainText:      true,
             buttonLabels:        'fontawesome',
-            disableDoubleReturn: !$editorElement.is("[data-double-returns]"),
-            firstHeader:         firstHeader,
-            secondHeader:        secondHeader,
-            buttons:             $editorElement.data('buttons').split(','),
+            disableDoubleReturn: !self.doubleReturns,
+            firstHeader:         self.firstHeader,
+            secondHeader:        self.secondHeader,
+            buttons:             self.buttons,
             extensions: {
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
@@ -49,19 +47,35 @@ WysiwygEditorField = (function($){
                     end:   '</mark>'
                 }),
            }
-        }));
+        });
 
         /*
             Observe changes to editor fields and update storage
             <textarea> element accordingly.
          */
-        $editorElement.on('input', {
-            $editorElement:  $editorElement,
-            $storageElement: $('#' + $editorElement.data('storage'))
-        }, function(event) {
-            event.data.$storageElement.text(event.data.$editorElement.html());
+        self.$editor.on('input', function(event) {
+            self.$storage.text(self.$editor.html());
         });
-    }
+
+        /*
+            Observe when the field element is destroyed (=the user leaves the
+            current view) and deactivate MediumEditor accordingly.
+         */
+        self.$field.bind('destroyed', function() {
+            self.editor.deactivate();
+        });
+
+    };
+
+    return this.init();
+
+});
+
+
+var WysiwygDynamicCSS = (function() {
+
+    var self = this,
+        stylesheet;
 
     /**
      * Create dynamic stylesheet
@@ -69,7 +83,7 @@ WysiwygEditorField = (function($){
      * This allows to add dynamic CSS rules for the editor
      * heading styles later on.
      */
-    function initDynamicCSS() {
+    this.init = function() {
         /*
             Create and prepare <style> element.
          */
@@ -83,8 +97,8 @@ WysiwygEditorField = (function($){
             stylesheet property for later use.
          */
         document.head.appendChild(styleElement);
-        stylesheet = styleElement.sheet;
-    }
+        self.stylesheet = styleElement.sheet;
+    };
 
     /**
      * Generate and add dynamic CSS rules for both headings
@@ -93,7 +107,7 @@ WysiwygEditorField = (function($){
      * @param string firstHeader
      * @param string secondHeader
      */
-    function addDynamicCSS(id, firstHeader, secondHeader) {
+    this.add = function(id, firstHeader, secondHeader) {
         /*
             Build ID and rules strings
          */
@@ -105,9 +119,9 @@ WysiwygEditorField = (function($){
         /*
             Insert into dynamic stylesheet
          */
-        insertCSSRule(firstHeadingSelector, firstHeadingRules);
-        insertCSSRule(secondHeadingSelector, secondHeadingRules);
-    }
+        self.insert(firstHeadingSelector, firstHeadingRules);
+        self.insert(secondHeadingSelector, secondHeadingRules);
+    };
 
     /**
      * Insert CSS rule into our dynamic stylesheet
@@ -115,48 +129,63 @@ WysiwygEditorField = (function($){
      * @param string selector
      * @param string rules
      */
-    function insertCSSRule(selector, rules) {
+    this.insert = function(selector, rules) {
         /*
             Try to use standard insertRule() way first.
          */
-        if('insertRule' in stylesheet) {
-            stylesheet.insertRule(selector + '{' + rules + '}', 0);
+        if('insertRule' in self.stylesheet) {
+            self.stylesheet.insertRule(selector + '{' + rules + '}', 0);
         }
 
         /*
             Otherwise try to use non-standard addRule() way.
          */
         else if('addRule' in stylesheet) {
-            stylesheet.addRule(selector, rules);
+            self.stylesheet.addRule(selector, rules);
         }
     }
 
     /**
-     * Publish public init method
+     * Publish public methods
      */
     return {
-        initSingleEditor: initSingleEditor,
-        initDynamicCSS:   initDynamicCSS
-    }
+        init: this.init,
+        add:  this.add
+    };
 
-})(jQuery);
+})();
+
 
 /*
     Initialize the dynamic stylesheet when loading the page.
  */
-jQuery(function($) {
-    WysiwygEditorField.initDynamicCSS();
+jQuery(function() {
+    WysiwygDynamicCSS.init();
 });
 
-/*
-    Tell the Panel to run our initialization.
-    https://github.com/getkirby/panel/issues/228#issuecomment-58379016
 
-    This callback will fire for every Medium Editor Field on the current
-    panel page.
- */
 (function($) {
-    $.fn.wysiwygeditorfield = function() {
-        WysiwygEditorField.initSingleEditor(this);
+
+    /*
+        Set up special "destroyed" event
+     */
+    $.event.special.destroyed = {
+        remove: function(event) {
+            if(event.handler) {
+                event.handler.apply(this,arguments);
+            }
+        }
     };
+
+    /*
+        Tell the Panel to run our initialization.
+        https://github.com/getkirby/panel/issues/228#issuecomment-58379016
+
+        This callback will fire for every WYSIWYG Editor Field on the current
+        panel page.
+     */
+    $.fn.wysiwygeditorfield = function() {
+            return new WysiwygEditor($, this);
+    };
+
 })(jQuery);
