@@ -1,9 +1,9 @@
 .medium-toolbar-arrow-under:after {
-    top: 60px;
+    bottom: -8px;
     border-color: #000 transparent transparent transparent;
 }
 .medium-toolbar-arrow-over:before {
-    top: -8px;
+    bottom: 8px;
     border-color: transparent transparent #000 transparent;
 }
 .medium-editor-toolbar {
@@ -12,12 +12,14 @@
 }
 .medium-editor-toolbar li { padding: 0 }
 .medium-editor-toolbar li button {
-    min-width: 60px;
-    height: 60px;
+    min-width: 32px;
+    height: 32px;
     border: none;
     border-right: 1px solid #000;
     background-color: transparent;
     color: #fff;
+	padding: 8px;
+	font-size: 12px;
 }
 .medium-editor-toolbar li button:hover {
     background-color: #8dae28;
@@ -29,7 +31,7 @@
 }
 .medium-editor-toolbar li .medium-editor-button-last { border-right: none }
 .medium-editor-toolbar-form .medium-editor-toolbar-input {
-    height: 60px;
+    height: 32px;
     background: #000;
     color: #fff;
 }
