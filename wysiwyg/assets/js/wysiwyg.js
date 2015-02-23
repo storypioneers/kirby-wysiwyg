@@ -3,20 +3,21 @@ WysiwygEditor = (function($, $field) {
 
     var self = this;
 
-    this.$field  = $field;
-    this.$editor = $(self.$field.data('editor'));
-    this.$storage = $('#' + self.$editor.data('storage'));
-    this.editor  = null;
+    this.$field        = $field;
+    this.$editor       = $(this.$field.data('editor'));
+    this.$storage      = $('#' + this.$editor.data('storage'));
+    this.firstHeader   = this.$editor.data('first-header');
+    this.secondHeader  = this.$editor.data('second-header');
+    this.doubleReturns = this.$editor.is("[data-double-returns]");
+    this.buttons       = this.$editor.data('buttons').split(',')
+    this.editor        = null;
 
     this.init = function() {
-
-        var firstHeader     = self.$editor.data('first-header'),
-            secondHeader    = self.$editor.data('second-header');
 
         /*
             Create dynamic styles
          */
-        WysiwygDynamicCSS.add(self.$editor.attr('id'), firstHeader, secondHeader);
+        WysiwygDynamicCSS.add(self.$editor.attr('id'), self.firstHeader, self.secondHeader);
 
         /*
             Create MediumEditor instance
@@ -25,10 +26,10 @@ WysiwygEditor = (function($, $field) {
             cleanPastedHTML:     true,
             forcePlainText:      true,
             buttonLabels:        'fontawesome',
-            disableDoubleReturn: !self.$editor.is("[data-double-returns]"),
-            firstHeader:         firstHeader,
-            secondHeader:        secondHeader,
-            buttons:             self.$editor.data('buttons').split(','),
+            disableDoubleReturn: !self.doubleReturns,
+            firstHeader:         self.firstHeader,
+            secondHeader:        self.secondHeader,
+            buttons:             self.buttons,
             extensions: {
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
@@ -54,6 +55,14 @@ WysiwygEditor = (function($, $field) {
          */
         self.$editor.on('input', function(event) {
             self.$storage.text(self.$editor.html());
+        });
+
+        /*
+            Observe when the field element is destroyed (=the user leaves the
+            current view) and deactivate MediumEditor accordingly.
+         */
+        self.$field.bind('destroyed', function() {
+            self.editor.deactivate();
         });
 
     };
@@ -146,6 +155,7 @@ var WysiwygDynamicCSS = (function() {
 
 })();
 
+
 /*
     Initialize the dynamic stylesheet when loading the page.
  */
@@ -153,27 +163,29 @@ jQuery(function() {
     WysiwygDynamicCSS.init();
 });
 
-/*
-    Tell the Panel to run our initialization.
-    https://github.com/getkirby/panel/issues/228#issuecomment-58379016
 
-    This callback will fire for every Medium Editor Field on the current
-    panel page.
- */
 (function($) {
-    $.fn.wysiwygeditorfield = function() {
-        var $this = $(this);
 
-        if($this.data('WysiwygEditor')) {
-            return $this.data('WysiwygEditor');
-        } else {
-            var wysiwygEditor = new WysiwygEditor($, $this);
-            $this.data('WysiwygEditor', wysiwygEditor);
-            return wysiwygEditor;
+    /*
+        Set up special "destroyed" event
+     */
+    $.event.special.destroyed = {
+        remove: function(event) {
+            if(event.handler) {
+                event.handler.apply(this,arguments);
+            }
         }
-    }
+    };
 
-    // $.fn.wysiwygeditorfield = function() {
-    //     WysiwygEditorField.initSingleEditor(this);
-    // };
+    /*
+        Tell the Panel to run our initialization.
+        https://github.com/getkirby/panel/issues/228#issuecomment-58379016
+
+        This callback will fire for every WYSIWYG Editor Field on the current
+        panel page.
+     */
+    $.fn.wysiwygeditorfield = function() {
+            return new WysiwygEditor($, this);
+    };
+
 })(jQuery);
