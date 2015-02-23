@@ -1,18 +1,22 @@
 <?php
-
-require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
-
 /**
  * WYSIWYG Editor Field for Kirby Panel
  *
  * @version   1.0.0
  * @author    Jonas Döbertin <hello@jd-powered.net>
- * @link      https://github.com/storypioneers/kirby-wysiwyg
  * @copyright digital storytelling pioneers <http://storypioneers.com>
+ * @link      https://github.com/storypioneers/kirby-wysiwyg
  * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
  */
 
+/** Require HTML to Markdown conversion class */
+require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
 
+/**
+ * WYSIWYG Editor Field
+ *
+ * @since 1.0.0
+ */
 class WysiwygField extends BaseField {
 
     /**
@@ -27,8 +31,8 @@ class WysiwygField extends BaseField {
     /**
      * Define frontend assets
      *
-     * @since 1.0.0
      * @var array
+     * @since 1.0.0
      */
     public static $assets = array(
         'js' => array(
@@ -47,24 +51,24 @@ class WysiwygField extends BaseField {
     /**
      * Array of buttons to display in the editor toolbar
      *
-     * @since 1.0.0
      * @var array
+     * @since 1.0.0
      */
     public $buttons;
 
     /**
      * Heading markdown style to use in output
      *
-     * @since 1.0.0
      * @var string
+     * @since 1.0.0
      */
     protected $headingStyle;
 
     /**
      * Default configuration values
      *
-     * @since 1.0.0
      * @var array
+     * @since 1.0.0
      */
     protected $defaults = array(
         'buttons' => array(

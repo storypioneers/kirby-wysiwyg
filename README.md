@@ -3,15 +3,18 @@
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like WYSIWYG editor in the Panel.
 
 **Version**: 1.0.0
+
 **Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)
+
 **Authors**: [@storypioneers/kirby](https://github.com/orgs/storypioneers/teams/kirby)
+
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
 ## Installation
 
-If not already exists, add a `fields` folder to your `site/panel` folder and copy or link the entire `wysiwyg` field folder there. Your structure should look like this:
+If not already existing, add a new `fields` folder to your `site` directory. Then copy or link the entire `wysiwyg` folder there. Afterwards, your directory structure should look like this:
 
 ```
 site/
@@ -26,7 +29,7 @@ site/
 
 ## Usage
 
-As soon as you dropped the field extension into your fields folder you can use it in your blueprints: replace the `textarea` fields with `wysiwyg` field (where applicable).
+As soon as you dropped the field extension into your fields folder you can use it in your blueprints: simply replace the `textarea` fields with `wysiwyg` fields (where applicable).
 
 	fields:
 		richtext:
@@ -35,7 +38,7 @@ As soon as you dropped the field extension into your fields folder you can use i
 
 ## Global Options
 
-The Kirby Media Field has some global options that you might want to use to alter the fields functionality to suit your specific needs. Below you'll find a list of all available options which can be set from your projects global `config.php` file.
+The Kirby WYSIWYG Editor Field has some global options that you might want to use to alter the fields functionality to suit your specific needs. Below you'll find a list of all available options which can be set from your projects global `config.php` file.
 
 ### field.wysiwyg.buttons
 

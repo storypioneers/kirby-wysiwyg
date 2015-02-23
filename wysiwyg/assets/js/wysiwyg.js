@@ -1,3 +1,12 @@
+/**
+ * WYSIWYG Editor Field for Kirby Panel
+ *
+ * @version   1.0.0
+ * @author    Jonas Döbertin <hello@jd-powered.net>
+ * @copyright digital storytelling pioneers <http://storypioneers.com>
+ * @link      https://github.com/storypioneers/kirby-wysiwyg
+ * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
+ */
 
 WysiwygEditor = (function($, $field) {
 
@@ -12,15 +21,24 @@ WysiwygEditor = (function($, $field) {
     this.buttons       = this.$editor.data('buttons').split(',')
     this.editor        = null;
 
+    /**
+     * Initialize editor field
+     *
+     * @since 1.0.0
+     */
     this.init = function() {
 
-        /*
-            Create dynamic styles
+        /**
+         * Create dynamic styles
+         *
+         * @since 1.0.0
          */
         WysiwygDynamicCSS.add(self.$editor.attr('id'), self.firstHeader, self.secondHeader);
 
-        /*
-            Create MediumEditor instance
+        /**
+         * Create MediumEditor instance
+         *
+         * @since 1.0.0
          */
         self.editor = new MediumEditor(self.$editor.get(0), {
             cleanPastedHTML:     true,
@@ -49,17 +67,21 @@ WysiwygEditor = (function($, $field) {
            }
         });
 
-        /*
-            Observe changes to editor fields and update storage
-            <textarea> element accordingly.
+        /**
+         * Observe changes to editor fields and update storage <textarea>
+         * element accordingly.
+         *
+         * @since 1.0.0
          */
         self.$editor.on('input', function(event) {
             self.$storage.text(self.$editor.html());
         });
 
-        /*
-            Observe when the field element is destroyed (=the user leaves the
-            current view) and deactivate MediumEditor accordingly.
+        /**
+         * Observe when the field element is destroyed (=the user leaves the
+         * current view) and deactivate MediumEditor accordingly.
+         *
+         * @since 1.0.0
          */
         self.$field.bind('destroyed', function() {
             self.editor.deactivate();
@@ -82,6 +104,8 @@ var WysiwygDynamicCSS = (function() {
      *
      * This allows to add dynamic CSS rules for the editor
      * heading styles later on.
+     *
+     * @since 1.0.0
      */
     this.init = function() {
         /*
@@ -102,6 +126,8 @@ var WysiwygDynamicCSS = (function() {
 
     /**
      * Generate and add dynamic CSS rules for both headings
+     *
+     * @since 1.0.0
      *
      * @param string id
      * @param string firstHeader
@@ -126,6 +152,8 @@ var WysiwygDynamicCSS = (function() {
     /**
      * Insert CSS rule into our dynamic stylesheet
      *
+     * @since 1.0.0
+     *
      * @param string selector
      * @param string rules
      */
@@ -147,6 +175,8 @@ var WysiwygDynamicCSS = (function() {
 
     /**
      * Publish public methods
+     *
+     * @since 1.0.0
      */
     return {
         init: this.init,
@@ -156,8 +186,10 @@ var WysiwygDynamicCSS = (function() {
 })();
 
 
-/*
-    Initialize the dynamic stylesheet when loading the page.
+/**
+ * Initialize the dynamic stylesheet when loading the page.
+ *
+ * @since 1.0.0
  */
 jQuery(function() {
     WysiwygDynamicCSS.init();
@@ -166,8 +198,10 @@ jQuery(function() {
 
 (function($) {
 
-    /*
-        Set up special "destroyed" event
+    /**
+     * Set up special "destroyed" event.
+     *
+     * @since 1.0.0
      */
     $.event.special.destroyed = {
         remove: function(event) {
@@ -177,12 +211,14 @@ jQuery(function() {
         }
     };
 
-    /*
-        Tell the Panel to run our initialization.
-        https://github.com/getkirby/panel/issues/228#issuecomment-58379016
-
-        This callback will fire for every WYSIWYG Editor Field on the current
-        panel page.
+    /**
+     * Tell the Panel to run our initialization.
+     *
+     * This callback will fire for every WYSIWYG Editor
+     * Field on the current panel page.
+     *
+     * @see https://github.com/getkirby/panel/issues/228#issuecomment-58379016
+     * @since 1.0.0
      */
     $.fn.wysiwygeditorfield = function() {
             return new WysiwygEditor($, this);
