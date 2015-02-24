@@ -73,7 +73,7 @@ WysiwygEditor = (function($, $field) {
          *
          * @since 1.0.0
          */
-        self.$editor.on('input', function(event) {
+        self.$editor.on('DOMSubtreeModified', function(event) {
             self.$storage.text(self.$editor.html());
         });
 
