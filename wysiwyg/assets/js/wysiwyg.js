@@ -15,6 +15,7 @@ WysiwygEditor = (function($, $field) {
     this.$field        = $field;
     this.$editor       = $(this.$field.data('editor'));
     this.$storage      = $('#' + this.$editor.data('storage'));
+    this.$draggable    = $('.sidebar').find('.draggable');
     this.firstHeader   = this.$editor.data('first-header');
     this.secondHeader  = this.$editor.data('second-header');
     this.doubleReturns = this.$editor.is("[data-double-returns]");
@@ -68,6 +69,20 @@ WysiwygEditor = (function($, $field) {
         });
 
         /**
+         * Make the editor field accept Kirby typical
+         * file/page drag and drop events.
+         *
+         * @since 1.0.0
+         */
+        self.$editor.droppable({
+            hoverClass: 'over',
+            accept:     self.draggable,
+            drop:       function(event, element) {
+                self.insertAtCaret(element.draggable.data('text'));
+            }
+        });
+
+        /**
          * Observe changes to editor fields and update storage <textarea>
          * element accordingly.
          *
@@ -89,6 +104,57 @@ WysiwygEditor = (function($, $field) {
 
     };
 
+    /**
+     * Insert HTML (or plaintext) content at the curent caret position
+     *
+     * @since 1.0.0
+     * @param string html
+     */
+    this.insertAtCaret = function(html) {
+
+        var sel,
+            range;
+
+        if(window.getSelection) {
+
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if(sel.getRangeAt && sel.rangeCount) {
+
+                range = sel.getRangeAt(0);
+                range.deleteContents();
+
+                var el = document.createElement("div");
+                el.innerHTML = html;
+
+                var frag = document.createDocumentFragment(),
+                    node,
+                    lastNode;
+
+                while((node = el.firstChild)) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+
+                // Preserve the selection
+                if(lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+        }
+        else if(document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+        }
+    };
+
+    /**
+     * Run initialization
+     */
     return this.init();
 
 });

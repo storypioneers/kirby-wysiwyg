@@ -7,6 +7,10 @@
     min-height: 10em;
 }
 
+    .wysiwyg-editor.over {
+        border-color: #000000;
+    }
+
     .wysiwyg-editor h1,
     .wysiwyg-editor h2,
     .wysiwyg-editor h3,
