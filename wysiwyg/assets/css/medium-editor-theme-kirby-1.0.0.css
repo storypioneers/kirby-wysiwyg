@@ -12,8 +12,8 @@
 }
 .medium-editor-toolbar li { padding: 0 }
 .medium-editor-toolbar li button {
-    min-width: 32px;
-    height: 32px;
+    min-width: 48px;
+    height: 48px;
     border: none;
     border-right: 1px solid #000;
     background-color: transparent;
@@ -31,7 +31,7 @@
 }
 .medium-editor-toolbar li .medium-editor-button-last { border-right: none }
 .medium-editor-toolbar-form .medium-editor-toolbar-input {
-    height: 32px;
+    height: 48px;
     background: #000;
     color: #fff;
 }
