@@ -41,6 +41,13 @@
         padding-left: 1em;
     }
 
+    .wysiwyg-editor pre,
+    .wysiwyg-editor code {
+        margin-bottom: 1em;
+        font-family: monospace;
+        white-space: pre-wrap;
+    }
+
     .wysiwyg-editor ul {
         list-style: inside square;
     }
