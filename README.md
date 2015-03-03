@@ -1,13 +1,10 @@
 # Kirby WYSIWYG Editor
 
-This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like WYSIWYG editor in the Panel.
+This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
-**Version**: 1.0.0
-
-**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)
-
-**Authors**: [@storypioneers/kirby](https://github.com/orgs/storypioneers/teams/kirby)
-
+**Version**: 1.0.0  
+**Authors**: [@jonasdoebertin](https://github.com/JonasDoebertin), [@storypioneers](https://github.com/orgs/storypioneers)  
+**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
@@ -31,10 +28,25 @@ site/
 
 As soon as you dropped the field extension into your fields folder you can use it in your blueprints: simply replace the `textarea` fields with `wysiwyg` fields (where applicable).
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+```
+
+As content you create using Kirby WYSIWYG Editor is converted into valid markdown, there's nothing you have to change in your templates. Just use the `wysiwyg` content fields like your previous `textarea` fields:
+
+```php
+<article>
+	<h1><?= $page->title()->html() ?></h1>
+
+	<!-- Just render your WYSIWYG Editor fields
+	     like any other Kirbytext field. -->
+	<?= $page->richtext()->kirbytext() ?>
+
+</acticle>
+```
 
 ## Global Options
 
@@ -56,54 +68,64 @@ In addition to the global options explained above, the field offers some options
 
 Define a list of buttons to display in the editor toolbar. Currently supported button types are: `header1`, `header2`, `bold`, `italic`, `anchor`, `quote`, `unorderedlist`, `orderedlist`, `subscript`, `superscript`, `del`, `ins` and `mark`. Please note that the order in which you list the button names relates to the display order in the toolbar.
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
-			buttons:
-				- bold
-				- italic
-				- anchor
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+		buttons:
+			- bold
+			- italic
+			- anchor
+```
 
 ### headingstyle
 
 Define your preferred heading style. Choose between `setext` (underlined) or `atx` (# Heading 1 and ## Heading 2). Please note that this only affects H1 and H2 headings. All headings of lower priority will always use the ATX style.
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
-			headingstyle: setext
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+		headingstyle: setext
+```
 
 ### doublereturns
 
 Choose to allow or disallow two (or more) subsequent empty new lines.
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
-			doublereturns: false
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+		doublereturns: false
+```
 
 ### firstheader
 
 Choose the heading priority to use as Heading 1 (H1 in the editor toolbar). This can be any HTML heading tag priority (possible values are `h1` to `h6`).
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
-			firstheader: h2
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+		firstheader: h2
+```
 
 ### secondheader
 
 Choose the heading priority to use as Heading 2 (H2 in the editor toolbar). This can be any HTML heading tag priority (possible values are `h1` to `h6`) though you should obviously choose a value lower then your *firstheader* setting.
 
-	fields:
-		richtext:
-			label: Text
-			type:  wysiwyg
-			secondheader: h3
+```
+fields:
+	richtext:
+		label: Text
+		type:  wysiwyg
+		secondheader: h3
+```
 
 ## Known Issues
 
@@ -111,6 +133,6 @@ Choose the heading priority to use as Heading 2 (H2 in the editor toolbar). This
 
 Right now, the panels keyboard shortcuts (*f* to upload a file, *g* for global search) interfere with the Medium Editor Field. Of course, the execution of the shortcuts will be omitted when you (= the user) have an input element, like `<input>`, `<textarea>`, etc focussed. However, the Medium Editor Field uses a brand new HTML5 technology called "contenteditable" elements. This way, you don't write your content inside one of those known `<input>` elements and the panel doesn't know it should not fire the shortcut actions.
 
-We already submitted a [bug report](https://github.com/getkirby/panel/issues/347) and a [pull request](https://github.com/getkirby/panel/pull/353) to the makers of Kirby and hopefully this issue will be fixed with the next update. **But in the meantime, we implemented a quick fix to make the WYSIWYG Field work as expected.** It will be applied automatically; you don't have to do any file modifications on your own.
+We already submitted a [bug report](https://github.com/getkirby/panel/issues/347) and a [pull request](https://github.com/getkirby/panel/pull/353) to the makers of Kirby and this issue will be fixed with the next update. **But in the meantime, we implemented a quick fix to make the WYSIWYG Field work as expected.** It will be applied automatically; you don't have to do any file modifications on your own.
 
 *If you want to know in detail how and why this fix works, please have a look at `wysiwyg/assets/js/bugfix.js`. You'll find some more information there.*
