@@ -1,10 +1,13 @@
 # Kirby WYSIWYG Editor
 
+[![Release](https://img.shields.io/github/release/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-selector/master/LICENSE)
+
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
-**Version**: 1.0.0  
-**Authors**: [@jonasdoebertin](https://github.com/JonasDoebertin), [@storypioneers](https://github.com/orgs/storypioneers)  
-**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
+**Concept**: [@storypioneers](https://github.com/storypioneers)
+
+**Authors**: [@JonasDoebertin](https://github.com/JonasDoebertin/) for [@storypioneers](https://github.com/storypioneers)
+
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
