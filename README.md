@@ -10,6 +10,8 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
 
+**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor)  
+
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
 ## Installation
