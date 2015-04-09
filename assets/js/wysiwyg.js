@@ -12,15 +12,20 @@ WysiwygEditor = (function($, $field) {
 
     var self = this;
 
-    this.$field        = $field;
-    this.$editor       = $(this.$field.data('editor'));
-    this.$storage      = $('#' + this.$editor.data('storage'));
-    this.$draggable    = $('.sidebar').find('.draggable');
-    this.firstHeader   = this.$editor.data('first-header');
-    this.secondHeader  = this.$editor.data('second-header');
-    this.doubleReturns = this.$editor.is("[data-double-returns]");
-    this.buttons       = this.$editor.data('buttons').split(',')
-    this.editor        = null;
+    this.$field         = $field;
+    this.$editor        = $(this.$field.data('editor'));
+    this.$storage       = $('#' + this.$editor.data('storage'));
+    this.$draggable     = $('.sidebar').find('.draggable');
+
+    this.firstHeader    = this.$editor.data('first-header');
+    this.secondHeader   = this.$editor.data('second-header');
+    this.doubleReturns  = this.$editor.is('[data-double-returns]');
+    this.buttons        = this.$editor.data('buttons').split(',');
+    this.kirbyDragDrop  = this.$field.is('[data-dragdrop-kirby]');
+    this.mediumDragDrop = this.$editor.is('[data-dragdrop-medium]');
+    this.editor         = null;
+
+    console.log(this.kirbyDragDrop);
 
     /**
      * Initialize editor field
@@ -49,6 +54,7 @@ WysiwygEditor = (function($, $field) {
             firstHeader:         self.firstHeader,
             secondHeader:        self.secondHeader,
             buttons:             self.buttons,
+            imageDragging:       self.mediumDragDrop,
             extensions: {
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
@@ -74,13 +80,16 @@ WysiwygEditor = (function($, $field) {
          *
          * @since 1.0.0
          */
-        self.$editor.droppable({
-            hoverClass: 'over',
-            accept:     self.draggable,
-            drop:       function(event, element) {
-                self.insertAtCaret(element.draggable.data('text'));
-            }
-        });
+        if(self.kirbyDragDrop) {
+            self.$editor.droppable({
+                hoverClass: 'over',
+                accept:     self.draggable,
+                drop:       function(event, element) {
+                    self.insertAtCaret(element.draggable.data('text'));
+                }
+            });
+        }
+
 
         /**
          * Observe changes to editor fields and update storage <textarea>

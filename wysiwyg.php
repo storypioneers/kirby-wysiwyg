@@ -141,6 +141,20 @@ class WysiwygField extends BaseField {
         {
             $this->secondHeader = $this->defaults['second-header'];
         }
+
+        /*
+            (6) Load drag/drop configuration
+         */
+        $this->kirbyDragDrop = c::get('field.wysiwyg.dragdrop.kirby', true);
+        if(!is_bool($this->kirbyDragDrop))
+        {
+            $this->kirbyDragDrop = true;
+        }
+        $this->mediumDragDrop = c::get('field.wysiwyg.dragdrop.medium', true);
+        if(!is_bool($this->mediumDragDrop))
+        {
+            $this->mediumDragDrop = true;
+        }
     }
 
     /**
@@ -162,8 +176,9 @@ class WysiwygField extends BaseField {
         ));
         $input->html($this->convertToHtml($this->value() ?: ''));
         $input->data(array(
-            'field'  => 'wysiwygeditorfield',
-            'editor' => '#' . $this->id() . '-editor',
+            'field'           => 'wysiwygeditorfield',
+            'editor'          => '#' . $this->id() . '-editor',
+            'dragdrop-kirby'  => $this->kirbyDragDrop,
         ));
         return $input;
     }
@@ -203,11 +218,12 @@ class WysiwygField extends BaseField {
         $editor->addClass('wysiwyg-editor');
         $editor->attr('id', $this->id() . '-editor');
         $editor->data(array(
-            'storage'        => $this->id(),
-            'buttons'        => implode(',', $this->buttons),
-            'double-returns' => $this->doubleReturns,
-            'first-header'   => $this->firstHeader,
-            'second-header'  => $this->secondHeader,
+            'storage'         => $this->id(),
+            'buttons'         => implode(',', $this->buttons),
+            'double-returns'  => $this->doubleReturns,
+            'first-header'    => $this->firstHeader,
+            'second-header'   => $this->secondHeader,
+            'dragdrop-medium' => $this->mediumDragDrop,
         ));
 
         /*
