@@ -25,8 +25,6 @@ WysiwygEditor = (function($, $field) {
     this.mediumDragDrop = this.$editor.is('[data-dragdrop-medium]');
     this.editor         = null;
 
-    console.log(this.kirbyDragDrop);
-
     /**
      * Initialize editor field
      *
@@ -71,6 +69,11 @@ WysiwygEditor = (function($, $field) {
                     start: '<mark>',
                     end:   '</mark>'
                 }),
+                'class': new MediumButton({
+                    label: 'CSS CLASS',
+                    start: '<span class="class">',
+                    end:   '</span>'
+                })
            }
         });
 
@@ -246,7 +249,7 @@ var WysiwygDynamicCSS = (function() {
         else if('addRule' in stylesheet) {
             self.stylesheet.addRule(selector, rules);
         }
-    }
+    };
 
     /**
      * Publish public methods
