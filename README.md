@@ -12,7 +12,7 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
 
-**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor), [@nickcernis/html-to-markdown](https://github.com/nickcernis/html-to-markdown), [medium-button](https://stillhart.biz/project/MediumButton/)
+**Uses**: [@yabwe/medium-editor](https://github.com/yabwe/medium-editor), [@nickcernis/html-to-markdown](https://github.com/nickcernis/html-to-markdown), [medium-button](https://stillhart.biz/project/MediumButton/)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
@@ -133,13 +133,3 @@ fields:
 		type:  wysiwyg
 		secondheader: h3
 ```
-
-## Known Issues
-
-**Panel Keyboard Shortcuts**
-
-Right now, the panels keyboard shortcuts (*f* to upload a file, *g* for global search) interfere with the Medium Editor Field. Of course, the execution of the shortcuts will be omitted when you (= the user) have an input element, like `<input>`, `<textarea>`, etc focussed. However, the Medium Editor Field uses a brand new HTML5 technology called "contenteditable" elements. This way, you don't write your content inside one of those known `<input>` elements and the panel doesn't know it should not fire the shortcut actions.
-
-We already submitted a [bug report](https://github.com/getkirby/panel/issues/347) and a [pull request](https://github.com/getkirby/panel/pull/353) to the makers of Kirby and this issue will be fixed with the next update. **But in the meantime, we implemented a quick fix to make the WYSIWYG Field work as expected.** It will be applied automatically; you don't have to do any file modifications on your own.
-
-*If you want to know in detail how and why this fix works, please have a look at `wysiwyg/assets/js/bugfix.js`. You'll find some more information there.*

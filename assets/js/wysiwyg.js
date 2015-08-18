@@ -54,24 +54,44 @@ WysiwygEditor = (function($, $field) {
             buttons:             self.buttons,
             imageDragging:       self.mediumDragDrop,
             extensions: {
+                'code': new MediumButton({
+                    label: '<i class="fa fa-code"></i>',
+                    start: '<code>',
+                    end:   '</code>'
+                }),
                 'del': new MediumButton({
                     label: '<i class="fa fa-strikethrough"></i>',
                     start: '<del>',
                     end:   '</del>'
                 }),
                 'ins': new MediumButton({
-                    label: 'INS',
+                    label: '<i class="fa fa-underline"></i>',
                     start: '<ins>',
                     end:   '</ins>'
                 }),
                 'mark': new MediumButton({
-                    label: 'MARK',
+                    label: '<i class="fa fa-pencil"></i>',
                     start: '<mark>',
                     end:   '</mark>'
                 }),
-                'class': new MediumButton({
-                    label: 'CSS CLASS',
-                    start: '<span class="class">',
+                'spaced': new MediumButton({
+                    label: '<i class="fa fa-text-width"></i>',
+                    start: '<span class="style-spaced">',
+                    end:   '</span>'
+                }),
+                'caps': new MediumButton({
+                    label: '<i class="fa fa-font"></i><i class="fa fa-font"></i>',
+                    start: '<span class="style-caps">',
+                    end:   '</span>'
+                }),
+                'big': new MediumButton({
+                    label: '<i class="fa fa-font"></i><i class="fa fa-plus"></i>',
+                    start: '<span class="style-big">',
+                    end:   '</span>'
+                }),
+                'small': new MediumButton({
+                    label: '<i class="fa fa-font"></i><i class="fa fa-minus"></i>',
+                    start: '<span class="style-small">',
                     end:   '</span>'
                 })
            }
