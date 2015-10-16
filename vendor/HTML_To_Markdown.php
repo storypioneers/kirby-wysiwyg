@@ -4,7 +4,7 @@
  *
  * A helper class to convert HTML to Markdown.
  *
- * @version 2.1.2
+ * @version 2.2.2
  * @author Nick Cernis <nick@cern.is>
  * @link https://github.com/nickcernis/html2markdown/ Latest version on GitHub.
  * @link http://twitter.com/nickcernis Nick on twitter.
@@ -75,8 +75,6 @@ class HTML_To_Markdown
      */
     public function convert($html)
     {
-        $html = preg_replace('~>\s+<~', '><', $html); // Strip white space between tags to prevent creation of empty #text nodes
-
         $this->document = new DOMDocument();
 
         if ($this->options['suppress_errors'])
@@ -97,7 +95,7 @@ class HTML_To_Markdown
      *
      * Is the node a child of the given parent tag?
      *
-     * @param $parent_name string The name of the parent node to search for (e.g. 'code')
+     * @param $parent_name string|array The name of the parent node(s) to search for e.g. 'code' or array('pre', 'code')
      * @param $node
      * @return bool
      */
@@ -107,6 +105,9 @@ class HTML_To_Markdown
             if (is_null($p))
                 return false;
 
+            if ( is_array($parent_name) && in_array($p->nodeName, $parent_name) )
+                return true;
+            
             if ($p->nodeName == $parent_name)
                 return true;
         }
@@ -127,7 +128,7 @@ class HTML_To_Markdown
     private function convert_children($node)
     {
         // Don't convert HTML code inside <code> and <pre> blocks to Markdown - that should stay as HTML
-        if (self::is_child_of('pre', $node) || self::is_child_of('code', $node))
+        if (self::is_child_of(array('pre', 'code'), $node))
             return;
 
         // If the node has children, convert those to Markdown first
@@ -201,7 +202,7 @@ class HTML_To_Markdown
     {
         $tag = $node->nodeName; // the type of element, e.g. h1
         $value = $node->nodeValue; // the value of that element, e.g. The Title
-
+        
         // Strip nodes named in remove_nodes
         $tags_to_remove = explode(' ', $this->options['remove_nodes']);
         if ( in_array($tag, $tags_to_remove) )
@@ -262,8 +263,7 @@ class HTML_To_Markdown
                 $markdown = $this->convert_anchor($node);
                 break;
             case "#text":
-                $markdown = preg_replace('~\s+~', ' ', $value);
-                $markdown = preg_replace('~^#~', '\\\\#', $markdown);
+                $markdown = $this->convert_text($node);
                 break;
             case "#comment":
                 $markdown = '';
@@ -319,9 +319,9 @@ class HTML_To_Markdown
     /**
      * Converts inline styles
      * This function is used to render strong and em tags
-     *
+     * 
      * eg <strong>bold text</strong> becomes **bold text** or __bold text__
-     *
+     * 
      * @param string $tag
      * @param string $value
      * @return string
@@ -333,7 +333,7 @@ class HTML_To_Markdown
         } else {
             $markdown = $this->options['bold_style'] . $value . $this->options['bold_style'];
         }
-
+        
         return $markdown;
      }
 
@@ -388,11 +388,8 @@ class HTML_To_Markdown
             $markdown = '[' . $text . '](' . $href . ')';
         }
 
-        // Append a space if the node after this one is also an anchor
-        $next_node_name = $this->get_next_node_name($node);
-
-        if ($next_node_name == 'a')
-            $markdown = $markdown . ' ';
+        if (! $href)
+            $markdown = html_entity_decode($node->C14N());
 
         return $markdown;
     }
@@ -437,7 +434,7 @@ class HTML_To_Markdown
 
         $markdown = '';
 
-        $code_content = html_entity_decode($this->document->saveHTML($node));
+        $code_content = html_entity_decode($node->C14N());
         $code_content = str_replace(array("<code>", "</code>"), "", $code_content);
         $code_content = str_replace(array("<pre>", "</pre>"), "", $code_content);
 
@@ -475,7 +472,7 @@ class HTML_To_Markdown
             $markdown .= "`" . $lines[0] . "`";
 
         }
-
+        
         return $markdown;
     }
 
@@ -514,7 +511,7 @@ class HTML_To_Markdown
     /**
      * Get Position
      *
-     * Returns the numbered position of a node inside its parent
+     * Returns the numbered position of a node inside its parent, excluding empty text nodes
      *
      * @param $node
      * @return int The numbered position of the node, starting at 1.
@@ -523,41 +520,31 @@ class HTML_To_Markdown
     {
         // Get all of the nodes inside the parent
         $list_nodes = $node->parentNode->childNodes;
-        $total_nodes = $list_nodes->length;
 
-        $position = 1;
+        $position = 0;
 
         // Loop through all nodes and find the given $node
-        for ($a = 0; $a < $total_nodes; $a++) {
-            $current_node = $list_nodes->item($a);
+        foreach ($list_nodes as $current_node) {
+            if (!$this->is_whitespace($current_node)) {
+                $position++;
+            }
 
-            if ($current_node->isSameNode($node))
-                $position = $a + 1;
+            if ($current_node->isSameNode($node)) {
+                break;
+            }
         }
 
         return $position;
     }
 
-
     /**
-     * Get Next Node Name
+     * @param \DomNode $node
      *
-     * Return the name of the node immediately after the passed one.
-     *
-     * @param $node
-     * @return string|null The node name (e.g. 'h1') or null.
+     * @return bool
      */
-    private function get_next_node_name($node)
+    private function is_whitespace($node)
     {
-        $next_node_name = null;
-
-        $current_position = $this->get_position($node);
-        $next_node = $node->parentNode->childNodes->item($current_position);
-
-        if ($next_node)
-            $next_node_name = $next_node->nodeName;
-
-        return $next_node_name;
+        return $node->nodeName === '#text' && trim($node->nodeValue) === '';
     }
 
 
@@ -587,6 +574,75 @@ class HTML_To_Markdown
             return '';
         } else {
             return $this->output;
+        }
+    }
+
+    /**
+     * @param \DomNode $node
+     *
+     * @return string
+     */
+    private function convert_text($node)
+    {
+        $value = $node->nodeValue;
+
+        $markdown = preg_replace('~\s+~', ' ', $value);
+        $markdown = preg_replace('~^#~', '\\\\#', $markdown);
+
+        if ($markdown === ' ') {
+            $next = $this->get_next($node);
+            if (!$next || $this->is_block($next)) {
+                $markdown = '';
+            }
+        }
+
+        return $markdown;
+    }
+
+    /**
+     * @param \DomNode $node
+     *
+     * @return \DomNode|null
+     */
+    private function get_next($node, $checkChildren = true)
+    {
+        if ($checkChildren && $node->firstChild) {
+            return $node->firstChild;
+        } elseif ($node->nextSibling) {
+            return $node->nextSibling;
+        } elseif ($node->parentNode) {
+            return $this->get_next($node->parentNode, false);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param \DomNode $node
+     *
+     * @return bool
+     */
+    private function is_block($node)
+    {
+        switch ($node->nodeName) {
+            case "blockquote":
+            case "body":
+            case "code":
+            case "h1":
+            case "h2":
+            case "h3":
+            case "h4":
+            case "h5":
+            case "h6":
+            case "hr":
+            case "html":
+            case "li":
+            case "p":
+            case "ol":
+            case "ul":
+                return true;
+            default:
+                return false;
         }
     }
 }

@@ -2,17 +2,11 @@
 
 [![Release](https://img.shields.io/github/release/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-wysiwyg/master/LICENSE)
 
-[![Release](https://img.shields.io/github/release/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-selector/master/LICENSE)
-
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
-**Concept**: [@storypioneers](https://github.com/storypioneers)
-
-**Authors**: [@JonasDoebertin](https://github.com/JonasDoebertin/) for [@storypioneers](https://github.com/storypioneers)
+**Authors**: [digital storytelling pioneers](https://github.com/storypioneers) feat. [Jonas Doebertin](https://github.com/JonasDoebertin)
 
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
-
-**Uses**: [@yabwe/medium-editor](https://github.com/yabwe/medium-editor), [@nickcernis/html-to-markdown](https://github.com/nickcernis/html-to-markdown), [medium-button](https://stillhart.biz/project/MediumButton/)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
@@ -96,18 +90,6 @@ fields:
 		label: Text
 		type:  wysiwyg
 		headingstyle: setext
-```
-
-### doublereturns
-
-Choose to allow or disallow two (or more) subsequent empty new lines.
-
-```
-fields:
-	richtext:
-		label: Text
-		type:  wysiwyg
-		doublereturns: false
 ```
 
 ### firstheader

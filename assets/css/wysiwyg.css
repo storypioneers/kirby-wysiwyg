@@ -73,19 +73,3 @@
     .wysiwyg-editor mark {
         background-color: yellow;
     }
-
-    .wysiwyg-editor span.style-spaced {
-        letter-spacing: 1ex;
-    }
-
-    .wysiwyg-editor span.style-caps {
-        text-transform: uppercase;
-    }
-
-    .wysiwyg-editor span.style-big {
-        font-size: 120%;
-    }
-
-    .wysiwyg-editor span.style-small {
-        font-size: 80%;
-    }
