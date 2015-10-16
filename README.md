@@ -92,18 +92,6 @@ fields:
 		headingstyle: setext
 ```
 
-### doublereturns
-
-Choose to allow or disallow two (or more) subsequent empty new lines.
-
-```
-fields:
-	richtext:
-		label: Text
-		type:  wysiwyg
-		doublereturns: false
-```
-
 ### firstheader
 
 Choose the heading priority to use as Heading 1 (H1 in the editor toolbar). This can be any HTML heading tag priority (possible values are `h1` to `h6`).
