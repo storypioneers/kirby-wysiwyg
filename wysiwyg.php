@@ -84,8 +84,8 @@ class WysiwygField extends BaseField {
         ),
         'heading-style'  => 'atx',
         'double-returns' => true,
-        'first-header'   => 'h2',
-        'second-header'  => 'h3',
+        'first-header'   => 'h1',
+        'second-header'  => 'h2',
     );
 
     /**
