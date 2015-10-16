@@ -36,13 +36,13 @@ class WysiwygField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'medium-editor-2.4.6.min.js',
-            'medium-button-1.1.min.js',
+            'vendor/medium-editor-3.0.9.min.js',
+            'vendor/medium-button-1.1.min.js',
             'bugfix.js',
             'wysiwyg.js',
         ),
         'css' => array(
-            'medium-editor-2.4.6.min.css',
+            'vendor/medium-editor-3.0.9.min.css',
             'medium-editor-theme-kirby-1.0.0.css',
             'wysiwyg.css',
         ),
