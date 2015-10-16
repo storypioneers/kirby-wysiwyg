@@ -127,7 +127,7 @@ class WysiwygField extends BaseField {
         /*
             (4) Load first header configuration
          */
-        $this->firstHeader = c::get('field.wysiwyg.first-header', 'h5');
+        $this->firstHeader = c::get('field.wysiwyg.first-header', 'h1');
         if(!in_array($this->firstHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
         {
             $this->firstHeader = $this->defaults['first-header'];
@@ -136,7 +136,7 @@ class WysiwygField extends BaseField {
         /*
             (5) Load second header configuration
          */
-        $this->secondHeader = c::get('field.wysiwyg.second-header', 'h6');
+        $this->secondHeader = c::get('field.wysiwyg.second-header', 'h2');
         if(!in_array($this->secondHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
         {
             $this->secondHeader = $this->defaults['second-header'];
