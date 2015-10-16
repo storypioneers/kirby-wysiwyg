@@ -36,14 +36,14 @@ class WysiwygField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'vendor/medium-editor-3.0.9.min.js',
-            'vendor/medium-button-1.1.min.js',
+            'vendor/medium-editor.min.js',
+            'vendor/medium-button.min.js',
             'bugfix.js',
             'wysiwyg.js',
         ),
         'css' => array(
-            'vendor/medium-editor-3.0.9.min.css',
-            'medium-editor-theme-kirby-1.0.0.css',
+            'vendor/medium-editor.min.css',
+            'medium-editor-theme-kirby.css',
             'wysiwyg.css',
         ),
     );
@@ -145,15 +145,15 @@ class WysiwygField extends BaseField {
         /*
             (6) Load drag/drop configuration
          */
-        $this->kirbyDragDrop = c::get('field.wysiwyg.dragdrop.kirby', true);
+        $this->kirbyDragDrop = c::get('field.wysiwyg.dragdrop.kirby', false);
         if(!is_bool($this->kirbyDragDrop))
         {
-            $this->kirbyDragDrop = true;
+            $this->kirbyDragDrop = false;
         }
-        $this->mediumDragDrop = c::get('field.wysiwyg.dragdrop.medium', true);
+        $this->mediumDragDrop = c::get('field.wysiwyg.dragdrop.medium', false);
         if(!is_bool($this->mediumDragDrop))
         {
-            $this->mediumDragDrop = true;
+            $this->mediumDragDrop = false;
         }
     }
 

@@ -48,6 +48,7 @@ WysiwygEditor = (function($, $field) {
             cleanPastedHTML:     true,
             forcePlainText:      true,
             buttonLabels:        'fontawesome',
+            disableReturn:       false,
             disableDoubleReturn: !self.doubleReturns,
             firstHeader:         self.firstHeader,
             secondHeader:        self.secondHeader,
