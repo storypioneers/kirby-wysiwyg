@@ -2,17 +2,11 @@
 
 [![Release](https://img.shields.io/github/release/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-wysiwyg/master/LICENSE)
 
-[![Release](https://img.shields.io/github/release/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-selector.svg)](https://github.com/storypioneers/kirby-selector/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-selector/master/LICENSE)
-
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
-**Concept**: [@storypioneers](https://github.com/storypioneers)
-
-**Authors**: [@JonasDoebertin](https://github.com/JonasDoebertin/) for [@storypioneers](https://github.com/storypioneers)
+**Authors**: [digital storytelling pioneers](https://github.com/storypioneers) feat. [Jonas Doebertin](https://bitbucket.org/JonasDoebertin)
 
 **License**: [GNU GPL v3.0](http://opensource.org/licenses/GPL-3.0)
-
-**Uses**: [@daviferreira/medium-editor](https://github.com/daviferreira/medium-editor), [@nickcernis/html-to-markdown](https://github.com/nickcernis/html-to-markdown), [medium-button](https://stillhart.biz/project/MediumButton/)
 
 ![screenshot](https://raw.github.com/storypioneers/kirby-wysiwyg/master/screenshot.png)
 
@@ -133,13 +127,3 @@ fields:
 		type:  wysiwyg
 		secondheader: h3
 ```
-
-## Known Issues
-
-**Panel Keyboard Shortcuts**
-
-Right now, the panels keyboard shortcuts (*f* to upload a file, *g* for global search) interfere with the Medium Editor Field. Of course, the execution of the shortcuts will be omitted when you (= the user) have an input element, like `<input>`, `<textarea>`, etc focussed. However, the Medium Editor Field uses a brand new HTML5 technology called "contenteditable" elements. This way, you don't write your content inside one of those known `<input>` elements and the panel doesn't know it should not fire the shortcut actions.
-
-We already submitted a [bug report](https://github.com/getkirby/panel/issues/347) and a [pull request](https://github.com/getkirby/panel/pull/353) to the makers of Kirby and this issue will be fixed with the next update. **But in the meantime, we implemented a quick fix to make the WYSIWYG Field work as expected.** It will be applied automatically; you don't have to do any file modifications on your own.
-
-*If you want to know in detail how and why this fix works, please have a look at `wysiwyg/assets/js/bugfix.js`. You'll find some more information there.*
