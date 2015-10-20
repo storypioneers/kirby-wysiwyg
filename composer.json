@@ -1,0 +1,15 @@
+{
+    "name": "storypioneers/kirby-wysiwyg",
+    "description": "WYSIWYG Editor Field for Kirby Panel",
+    "require": {
+        "league/html-to-markdown": "^4.0"
+    },
+    "license": "GNU GPL v3.0",
+    "authors": [
+        {
+            "name": "Jonas Döbertin",
+            "email": "hello@jd-powered.net"
+        }
+    ],
+    "minimum-stability": "stable"
+}

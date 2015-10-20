@@ -9,8 +9,8 @@
  * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
  */
 
-/** Require HTML to Markdown conversion class */
-require __DIR__ . DS . 'vendor' . DS . 'HTML_To_Markdown.php';
+// Require vendor autoloader
+require __DIR__ . DS . 'vendor' . DS . 'autoload.php';
 
 /**
  * WYSIWYG Editor Field
@@ -249,9 +249,10 @@ class WysiwygField extends BaseField {
      */
     protected function convertToMarkdown($html)
     {
-        $converter = new HTML_To_Markdown();
-        $converter->set_option('strip_tags', false);
-        $converter->set_option('header_style', $this->headingStyle);
+        $converter = new League\HTMLToMarkdown\HtmlConverter(array(
+            'strip_tags' => false,
+            'header_style' => $this->headingStyle
+        ));
         return $converter->convert($html);
     }
 
