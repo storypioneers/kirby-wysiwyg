@@ -2,7 +2,7 @@
 /**
  * WYSIWYG Editor Field for Kirby Panel
  *
- * @version   1.0.0
+ * @version   1.1.0
  * @author    Jonas Döbertin <hello@jd-powered.net>
  * @copyright digital storytelling pioneers <http://storypioneers.com>
  * @link      https://github.com/storypioneers/kirby-wysiwyg
@@ -36,13 +36,16 @@ class WysiwygField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'vendor/medium-editor.min.js',
-            'vendor/medium-button.min.js',
-            'bugfix.js',
+            'vendor/medium-editor-5.9.0.min.js',
+            'vendor/rangy-core-1.3.0.min.js',
+            'vendor/rangy-classapplier-1.3.0.min.js',
+            'del-button.js',
+            'ins-button.js',
+            'mark-button.js',
             'wysiwyg.js',
         ),
         'css' => array(
-            'vendor/medium-editor.min.css',
+            'vendor/medium-editor-5.9.0.min.css',
             'medium-editor-theme-kirby.css',
             'wysiwyg.css',
         ),
@@ -72,8 +75,8 @@ class WysiwygField extends BaseField {
      */
     protected $defaults = array(
         'buttons' => array(
-            'header1',
-            'header2',
+            'h1',
+            'h2',
             'bold',
             'italic',
             'anchor',
@@ -84,8 +87,6 @@ class WysiwygField extends BaseField {
         ),
         'heading-style'  => 'atx',
         'double-returns' => true,
-        'first-header'   => 'h1',
-        'second-header'  => 'h2',
     );
 
     /**
@@ -125,25 +126,7 @@ class WysiwygField extends BaseField {
         }
 
         /*
-            (4) Load first header configuration
-         */
-        $this->firstHeader = c::get('field.wysiwyg.first-header', 'h5');
-        if(!in_array($this->firstHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
-        {
-            $this->firstHeader = $this->defaults['first-header'];
-        }
-
-        /*
-            (5) Load second header configuration
-         */
-        $this->secondHeader = c::get('field.wysiwyg.second-header', 'h6');
-        if(!in_array($this->secondHeader, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6')))
-        {
-            $this->secondHeader = $this->defaults['second-header'];
-        }
-
-        /*
-            (6) Load drag/drop configuration
+            (4) Load drag/drop configuration
          */
         $this->kirbyDragDrop = c::get('field.wysiwyg.dragdrop.kirby', false);
         if(!is_bool($this->kirbyDragDrop))
@@ -221,8 +204,6 @@ class WysiwygField extends BaseField {
             'storage'         => $this->id(),
             'buttons'         => implode(',', $this->buttons),
             'double-returns'  => $this->doubleReturns,
-            'first-header'    => $this->firstHeader,
-            'second-header'   => $this->secondHeader,
             'dragdrop-medium' => $this->mediumDragDrop,
         ));
 
