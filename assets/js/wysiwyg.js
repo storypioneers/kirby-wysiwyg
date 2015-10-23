@@ -47,7 +47,18 @@ WysiwygEditor = (function($, $field) {
             disableReturn: false,
             disableDoubleReturn: !self.doubleReturns,
             imageDragging: self.mediumDragDrop,
+
+            /* disabled due to missing HTML-to-Markdown Options
             targetBlank: true,
+            anchor: {
+                customClassOption: null,
+                customClassOptionText: 'Button',
+                linkValidation: true,
+                placeholderText: 'Paste or type a link',
+                targetCheckbox: true,
+                targetCheckboxText: 'Open in new window'
+            },
+            */
 
             toolbar: {
                 buttons: self.buttons,
