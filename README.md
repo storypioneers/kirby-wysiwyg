@@ -12,9 +12,11 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 
 ## Installation
 
-If not already existing, add a new `fields` folder to your `site` directory. Then copy or link the entire `wysiwyg` folder there. Afterwards, your directory structure should look like this:
+### Copy & Pasting
 
-```
+If not already existing, add a new `fields` folder to your `site` directory. Then copy or link this repositories whole content in a new `wysiwyg` folder there. Afterwards, your directory structure should look like this:
+
+```yaml
 site/
 	fields/
 		wysiwyg/
@@ -23,13 +25,45 @@ site/
 			wysiwyg.php
 ```
 
+### Git Submodule
+
+If you are an advanced user and know your way around Git and you already use Git to manage you project, you can make updating this field extension to newer releases a breeze by adding it as a Git submodule.
+
+```bash
+$ cd your/project/root
+$ git submodule add https://github.com/storypioneers/kirby-wysiwyg.git site/fields/wysiwyg
+```
+
+To Update your WYSIWYG field submodule to the latest available release follow these steps:
+
+```bash
+$ cd your/project/root
+$ cd site/fields/wysiwyg
+$ git checkout master
+$ git pull
+$ cd ../../../
+$ git commit -a -m "Update WYSIWYG submodule"
+```
+
+Updating all your Git submodules (eg. the Kirby core modules and any extensions added as submodules) to their latest version, all you need to do is to run these few Git commands:
+
+```bash
+$ cd your/project/root
+$ git submodule foreach git checkout master
+$ git submodule foreach git pull
+$ git commit -a -m "Update submodules"
+$ git submodule update --init --recursive
+```
+
+
 *Optional: Set some configuration options for Kirby WYSIWYG Editor in your sites `config.php` file. You can get an overview of all available options further down.*
+
 
 ## Usage
 
 As soon as you dropped the field extension into your fields folder you can use it in your blueprints: simply replace the `textarea` fields with `wysiwyg` fields (where applicable).
 
-```
+```yaml
 fields:
 	richtext:
 		label: Text
@@ -55,7 +89,7 @@ The Kirby WYSIWYG Editor Field has some global options that you might want to us
 
 ### field.wysiwyg.buttons
 
-Define a list of buttons to display in the editor toolbar. Currently supported button types are: `header1`, `header2`, `bold`, `italic`, `anchor`, `quote`, `unorderedlist`, `orderedlist`, `subscript`, `superscript`, `del`, `ins` and `mark`. Please note that the order in which you list the button names relates to the display order in the toolbar.
+Define a list of buttons to display in the editor toolbar. Currently supported button types are: `bold`, `italic`, `underline`, `strikethrough`, `subscript`, `superscript`, `anchor`, `quote`, `pre`, `orderedlist`, `unorderedlist`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, and `removeFormat`. Please note that the order in which you list the button names relates to the display order in the toolbar.
 
 ### field.wysiwyg.heading-style
 
@@ -67,9 +101,9 @@ In addition to the global options explained above, the field offers some options
 
 ### buttons
 
-Define a list of buttons to display in the editor toolbar. Currently supported button types are: `header1`, `header2`, `bold`, `italic`, `anchor`, `quote`, `unorderedlist`, `orderedlist`, `subscript`, `superscript`, `del`, `ins` and `mark`. Please note that the order in which you list the button names relates to the display order in the toolbar.
+Define a list of buttons to display in the editor toolbar. Currently supported button types are: `bold`, `italic`, `underline`, `strikethrough`, `subscript`, `superscript`, `anchor`, `quote`, `pre`, `orderedlist`, `unorderedlist`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, and `removeFormat`. Please note that the order in which you list the button names relates to the display order in the toolbar.
 
-```
+```yaml
 fields:
 	richtext:
 		label: Text
@@ -84,34 +118,10 @@ fields:
 
 Define your preferred heading style. Choose between `setext` (underlined) or `atx` (# Heading 1 and ## Heading 2). Please note that this only affects H1 and H2 headings. All headings of lower priority will always use the ATX style.
 
-```
+```yaml
 fields:
 	richtext:
 		label: Text
 		type:  wysiwyg
 		headingstyle: setext
-```
-
-### firstheader
-
-Choose the heading priority to use as Heading 1 (H1 in the editor toolbar). This can be any HTML heading tag priority (possible values are `h1` to `h6`).
-
-```
-fields:
-	richtext:
-		label: Text
-		type:  wysiwyg
-		firstheader: h2
-```
-
-### secondheader
-
-Choose the heading priority to use as Heading 2 (H2 in the editor toolbar). This can be any HTML heading tag priority (possible values are `h1` to `h6`) though you should obviously choose a value lower then your *firstheader* setting.
-
-```
-fields:
-	richtext:
-		label: Text
-		type:  wysiwyg
-		secondheader: h3
 ```

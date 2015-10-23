@@ -59,3 +59,8 @@
     color: #fff;
 }
 .medium-editor-placeholder:after { color: #fff }
+
+.medium-editor-toolbar-form-row {
+  color: #fff;
+  
+}
