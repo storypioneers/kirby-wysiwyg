@@ -1,5 +1,3 @@
-rangy.init();
-
 var InsButton = MediumEditor.extensions.button.extend({
     name: 'ins',
     tagNames: ['ins'],

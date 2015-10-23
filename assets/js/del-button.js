@@ -1,5 +1,3 @@
-rangy.init();
-
 var DelButton = MediumEditor.extensions.button.extend({
     name: 'del',
     tagNames: ['del'],

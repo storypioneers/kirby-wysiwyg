@@ -1,5 +1,3 @@
-rangy.init();
-
 var MarkButton = MediumEditor.extensions.button.extend({
     name: 'mark',
     tagNames: ['mark'],

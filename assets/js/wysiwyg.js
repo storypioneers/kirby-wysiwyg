@@ -287,7 +287,8 @@ jQuery(function() {
      * @since 1.0.0
      */
     $.fn.wysiwygeditorfield = function() {
-            return new WysiwygEditor($, this);
+        rangy.init();
+        return new WysiwygEditor($, this);
     };
 
 })(jQuery);
