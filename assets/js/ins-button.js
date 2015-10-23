@@ -19,6 +19,8 @@ var InsButton = MediumEditor.extensions.button.extend({
     },
 
     handleClick: function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         this.classApplier.toggleSelection();
     }
 });
