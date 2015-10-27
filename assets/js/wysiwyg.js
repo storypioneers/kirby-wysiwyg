@@ -110,7 +110,7 @@ WysiwygEditor = (function($, $field) {
          * @since 1.0.0
          */
         self.$field.bind('destroyed', function() {
-            self.editor.deactivate();
+            self.editor.destroy();
         });
 
     };
