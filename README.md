@@ -1,6 +1,6 @@
-# WYSIWYG – Kirby WYSIWYG Editor Field
+# Kirby WYSIWYG
 
-This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
+This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual inline editor in the Panel.
 
 **Authors**: [digital storytelling pioneers](https://github.com/storypioneers) feat. [Jonas Doebertin](https://github.com/JonasDoebertin)
 

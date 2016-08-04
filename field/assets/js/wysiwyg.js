@@ -34,7 +34,7 @@ WysiwygEditor = (function($, $field) {
          */
         self.editor = new MediumEditor(self.$editor.get(0), {
             buttonLabels: 'fontawesome',
-            disableReturn: true,
+            disableReturn: false,
             disableDoubleReturn: !self.doubleReturns,
             imageDragging: self.mediumDragDrop,
 
@@ -101,7 +101,7 @@ WysiwygEditor = (function($, $field) {
          * @since 1.2.0
          */
         $('div#form-field-text-editor.input.wysiwyg-editor.medium-editor-element *').off('click').on('click', function(e) {
-            e.stopPropagation();    
+            e.stopPropagation();
             e.preventDefault();
         });
 
