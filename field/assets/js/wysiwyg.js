@@ -100,7 +100,7 @@ WysiwygEditor = (function($, $field) {
          *
          * @since 1.2.0
          */
-        $('div#form-field-text-editor.input.wysiwyg-editor.medium-editor-element *').off('click').on('click', function(e) {
+        $('div.medium-editor-element a').off('click').on('click', function(e) {
             e.stopPropagation();
             e.preventDefault();
         });
