@@ -1,7 +1,5 @@
 # WYSIWYG – Kirby WYSIWYG Editor Field
 
-[![Release](https://img.shields.io/github/release/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-wysiwyg/master/LICENSE)
-
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
 **Authors**: [digital storytelling pioneers](https://github.com/storypioneers) feat. [Jonas Doebertin](https://github.com/JonasDoebertin)
