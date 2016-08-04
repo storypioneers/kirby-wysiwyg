@@ -1,13 +1,4 @@
 <?php
-/**
- * WYSIWYG Editor Field for Kirby Panel
- *
- * @version   1.2.0
- * @author    Jonas Döbertin <hello@jd-powered.net>
- * @copyright digital storytelling pioneers <http://storypioneers.com>
- * @link      https://github.com/storypioneers/kirby-wysiwyg
- * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
- */
 
 // Require vendor autoloader
 require __DIR__ . DS . 'vendor' . DS . 'autoload.php';
