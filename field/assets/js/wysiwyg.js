@@ -1,13 +1,3 @@
-/**
- * WYSIWYG Editor Field for Kirby Panel
- *
- * @version   1.0.0
- * @author    Jonas Döbertin <hello@jd-powered.net>
- * @copyright digital storytelling pioneers <http://storypioneers.com>
- * @link      https://github.com/storypioneers/kirby-wysiwyg
- * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
- */
-
 WysiwygEditor = (function($, $field) {
 
     var self = this;
@@ -44,30 +34,21 @@ WysiwygEditor = (function($, $field) {
          */
         self.editor = new MediumEditor(self.$editor.get(0), {
             buttonLabels: 'fontawesome',
-            disableReturn: false,
+            disableReturn: true,
             disableDoubleReturn: !self.doubleReturns,
             imageDragging: self.mediumDragDrop,
 
-            /* disabled due to missing HTML-to-Markdown Options
-            targetBlank: true,
-            anchor: {
-                customClassOption: null,
-                customClassOptionText: 'Button',
-                linkValidation: true,
-                placeholderText: 'Paste or type a link',
-                targetCheckbox: true,
-                targetCheckboxText: 'Open in new window'
-            },
-            */
 
             toolbar: {
                 buttons: self.buttons,
             },
 
             paste: {
-                cleanPastedHTML: true,
+                cleanPastedHTML: false,
                 forcePlainText: true,
             },
+
+            anchorPreview: false,
 
             extensions: {
                 'del': new DelButton(),
@@ -110,7 +91,18 @@ WysiwygEditor = (function($, $field) {
          * @since 1.0.0
          */
         self.$field.bind('destroyed', function() {
-            self.editor.deactivate();
+            self.editor.destroy();
+        });
+
+
+        /**
+         * Remove panel default event delegation for all clicks on links
+         *
+         * @since 1.2.0
+         */
+        $('div#form-field-text-editor.input.wysiwyg-editor.medium-editor-element *').off('click').on('click', function(e) {
+            e.stopPropagation();    
+            e.preventDefault();
         });
 
     };

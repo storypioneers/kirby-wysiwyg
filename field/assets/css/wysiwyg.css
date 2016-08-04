@@ -1,0 +1,74 @@
+.wysiwyg-editor-input {
+  display: none;
+}
+
+.wysiwyg-editor {
+  min-height: 10em;
+}
+
+.wysiwyg-editor.over {
+  border-color: #000000;
+}
+
+.wysiwyg-editor h1,
+.wysiwyg-editor h2,
+.wysiwyg-editor h3,
+.wysiwyg-editor h4,
+.wysiwyg-editor h5,
+.wysiwyg-editor h6 {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.wysiwyg-editor p {
+  margin-bottom: 1em;
+}
+
+.wysiwyg-editor strong,
+.wysiwyg-editor b {
+  font-weight: bold;
+}
+
+.wysiwyg-editor em,
+.wysiwyg-editor i {
+  font-style: italic;
+}
+
+.wysiwyg-editor a {
+  text-decoration: underline;
+}
+
+.wysiwyg-editor blockquote {
+  margin-bottom: 1em;
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.wysiwyg-editor pre,
+.wysiwyg-editor code {
+  margin-bottom: 1em;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+.wysiwyg-editor ul {
+  list-style: inside square;
+}
+
+.wysiwyg-editor ol {
+  list-style: inside decimal;
+}
+
+.wysiwyg-editor del {
+  text-decoration: line-through;
+  color: red;
+}
+
+.wysiwyg-editor ins {
+  text-decoration: underline;
+  color: green;
+}
+
+.wysiwyg-editor mark {
+  background-color: yellow;
+}

@@ -1,13 +1,4 @@
 <?php
-/**
- * WYSIWYG Editor Field for Kirby Panel
- *
- * @version   1.1.0
- * @author    Jonas Döbertin <hello@jd-powered.net>
- * @copyright digital storytelling pioneers <http://storypioneers.com>
- * @link      https://github.com/storypioneers/kirby-wysiwyg
- * @license   GNU GPL v3.0 <http://opensource.org/licenses/GPL-3.0>
- */
 
 // Require vendor autoloader
 require __DIR__ . DS . 'vendor' . DS . 'autoload.php';
@@ -36,18 +27,18 @@ class WysiwygField extends BaseField {
      */
     public static $assets = array(
         'js' => array(
-            'vendor/medium-editor-5.9.0.min.js',
-            'vendor/rangy-core-1.3.0.min.js',
-            'vendor/rangy-classapplier-1.3.0.min.js',
+            'vendor/medium-editor.min.js',
+            'vendor/rangy-core.min.js',
+            'vendor/rangy-classapplier.min.js',
             'del-button.js',
             'ins-button.js',
             'mark-button.js',
             'wysiwyg.js',
         ),
         'css' => array(
-            'vendor/medium-editor-5.9.0.min.css',
-            'medium-editor-theme-kirby.css',
             'wysiwyg.css',
+            'vendor/medium-editor.min.css',
+            'medium-editor-theme-kirby.css',
         ),
     );
 
@@ -86,7 +77,7 @@ class WysiwygField extends BaseField {
             'pre',
         ),
         'heading-style'  => 'atx',
-        'double-returns' => true,
+        'double-returns' => false,
     );
 
     /**

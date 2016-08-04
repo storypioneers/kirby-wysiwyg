@@ -1,7 +1,5 @@
 # WYSIWYG – Kirby WYSIWYG Editor Field
 
-[![Release](https://img.shields.io/github/release/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/releases)  [![Issues](https://img.shields.io/github/issues/storypioneers/kirby-wysiwyg.svg)](https://github.com/storypioneers/kirby-wysiwyg/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/storypioneers/kirby-wysiwyg/master/LICENSE)
-
 This additional panel field for [Kirby 2](http://getkirby.com) allows you to use a medium.com like visual editor in the Panel.
 
 **Authors**: [digital storytelling pioneers](https://github.com/storypioneers) feat. [Jonas Doebertin](https://github.com/JonasDoebertin)
@@ -12,48 +10,7 @@ This additional panel field for [Kirby 2](http://getkirby.com) allows you to use
 
 ## Installation
 
-### Copy & Pasting
-
-If not already existing, add a new `fields` folder to your `site` directory. Then copy or link this repositories whole content in a new `wysiwyg` folder there. Afterwards, your directory structure should look like this:
-
-```yaml
-site/
-	fields/
-		wysiwyg/
-			assests/
-			vendor/
-			wysiwyg.php
-```
-
-### Git Submodule
-
-If you are an advanced user and know your way around Git and you already use Git to manage you project, you can make updating this field extension to newer releases a breeze by adding it as a Git submodule.
-
-```bash
-$ cd your/project/root
-$ git submodule add https://github.com/storypioneers/kirby-wysiwyg.git site/fields/wysiwyg
-```
-
-To Update your WYSIWYG field submodule to the latest available release follow these steps:
-
-```bash
-$ cd your/project/root
-$ cd site/fields/wysiwyg
-$ git checkout master
-$ git pull
-$ cd ../../../
-$ git commit -a -m "Update WYSIWYG submodule"
-```
-
-Updating all your Git submodules (eg. the Kirby core modules and any extensions added as submodules) to their latest version, all you need to do is to run these few Git commands:
-
-```bash
-$ cd your/project/root
-$ git submodule foreach git checkout master
-$ git submodule foreach git pull
-$ git commit -a -m "Update submodules"
-$ git submodule update --init --recursive
-```
+Copy or link the `wysiwyg` directory to `site/plugins/` **or** use the [Kirby CLI](https://github.com/getkirby/cli) `kirby plugin:install storypioneers/kirby-wysiwyg`.
 
 
 *Optional: Set some configuration options for Kirby WYSIWYG Editor in your sites `config.php` file. You can get an overview of all available options further down.*
@@ -61,7 +18,7 @@ $ git submodule update --init --recursive
 
 ## Usage
 
-As soon as you dropped the field extension into your fields folder you can use it in your blueprints: simply replace the `textarea` fields with `wysiwyg` fields (where applicable).
+Post installation you can use it in your blueprints: simply replace the `textarea` fields with `wysiwyg` fields (where applicable).
 
 ```yaml
 fields:
