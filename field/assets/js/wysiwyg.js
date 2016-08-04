@@ -51,9 +51,9 @@ WysiwygEditor = (function($, $field) {
             anchorPreview: false,
 
             extensions: {
+                'mark': new MarkButton(),
                 'del': new DelButton(),
                 'ins': new InsButton(),
-                'mark': new MarkButton()
             }
         });
 

@@ -38,6 +38,9 @@
   background-color: #8dae28;
   color: #fff;
 }
+.medium-editor-toolbar li .medium-editor-button-active:hover {
+  color: #fff;
+}
 .medium-editor-toolbar li .medium-editor-button-last {
   border-right: none;
 }
@@ -88,7 +91,7 @@
   background: #8dae28;
   color: #fff;
 }
-.medium-editor-placeholder:after { 
+.medium-editor-placeholder:after {
   color: #fff;
 }
 .medium-editor-toolbar-form-row {

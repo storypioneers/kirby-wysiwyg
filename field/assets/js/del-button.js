@@ -1,26 +1,27 @@
 var DelButton = MediumEditor.extensions.button.extend({
-    name: 'del',
-    tagNames: ['del'],
-    contentDefault: '<b>DEL</b>',
-    contentFA: '<i class="fa fa-strikethrough"></i>',
-    aria: 'Deleted',
-    action: 'del',
+  name: 'del',
 
+  tagNames: ['DEL'], // nodeName which indicates the button should be 'active' when isAlreadyApplied() is called
+  contentDefault: '<b>-</b>', // default innerHTML of the button
+  contentFA: '<i class="fa fa-strikethrough"></i>', // innerHTML of button when 'fontawesome' is being used
+  aria: 'Deleted', // used as both aria-label and title attributes
+  action: 'del', // used as the data-action attribute of the button
 
-    init: function () {
-        // Initialize button
-        MediumEditor.extensions.button.prototype.init.call(this);
+  init: function () {
+    MediumEditor.extensions.button.prototype.init.call(this);
 
-        // Initialize ClassApplier
-        this.classApplier = rangy.createClassApplier('del', {
-            elementTagName: 'del',
-            normalize: true
-        });
-    },
+    this.classApplier = rangy.createClassApplier('del', {
+      elementTagName: 'del',
+      normalize: true
+    });
+  },
 
-    handleClick: function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.classApplier.toggleSelection();
-    }
+  handleClick: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.classApplier.toggleSelection();
+    this.base.checkContentChanged();
+    this.button.classList.toggle('medium-editor-button-active');
+  },
 });
