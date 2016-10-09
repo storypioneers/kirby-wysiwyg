@@ -3,7 +3,7 @@
 }
 
 .wysiwyg-editor {
-  min-height: 10em;
+  min-height: 10em !important;
 }
 
 .wysiwyg-editor.over {
