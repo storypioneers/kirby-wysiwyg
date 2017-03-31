@@ -4,7 +4,7 @@
  *
  * Inline Editor Field for Kirby 2
  *
- * @version   1.2.0
+ * @version   1.2.1
  * @author    digital storytelling pioneers <digital@storypioneers.com>
  * @author    feat. Jonas Döbertin <hello@jd-powered.net> and others (see AUTHORS)
  * @copyright digital storytelling pioneers <http://storypioneers.com>
