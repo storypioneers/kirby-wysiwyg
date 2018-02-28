@@ -13,14 +13,18 @@ class TextConverter implements ConverterInterface
      */
     public function convert(ElementInterface $element)
     {
-        $value = $element->getValue();
+        $markdown = $element->getValue();
 
-        $markdown = preg_replace('~\s+~', ' ', $value);
+        // Remove leftover \n at the beginning of the line
+        $markdown = ltrim($markdown, "\n");
 
-        //escape the following characters: '*', '_' and '\'
-        $markdown = preg_replace('~([*_\\\\])~', '\\\\$1', $markdown);
+        // Replace sequences of invisible characters with spaces
+        $markdown = preg_replace('~\s+~u', ' ', $markdown);
 
-        $markdown = preg_replace('~^#~', '\\\\#', $markdown);
+        // Escape the following characters: '*', '_', '[', ']' and '\'
+        $markdown = preg_replace('~([*_\\[\\]\\\\])~u', '\\\\$1', $markdown);
+
+        $markdown = preg_replace('~^#~u', '\\\\#', $markdown);
 
         if ($markdown === ' ') {
             $next = $element->getNext();

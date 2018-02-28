@@ -24,22 +24,28 @@ class HtmlConverter
     /**
      * Constructor
      *
-     * @param array $options Configuration options
+     * @param Environment|array $options Environment object or configuration options
      */
-    public function __construct(array $options = array())
+    public function __construct($options = array())
     {
-        $defaults = array(
-            'header_style'    => 'setext', // Set to 'atx' to output H1 and H2 headers as # Header1 and ## Header2
-            'suppress_errors' => true, // Set to false to show warnings when loading malformed HTML
-            'strip_tags'      => false, // Set to true to strip tags that don't have markdown equivalents. N.B. Strips tags, not their content. Useful to clean MS Word HTML output.
-            'bold_style'      => '**', // Set to '__' if you prefer the underlined style
-            'italic_style'    => '*', // Set to '_' if you prefer the underlined style
-            'remove_nodes'    => '', // space-separated list of dom nodes that should be removed. example: 'meta style script'
-        );
+        if ($options instanceof Environment) {
+            $this->environment = $options;
+        } elseif (is_array($options)) {
+            $defaults = array(
+                'header_style' => 'setext', // Set to 'atx' to output H1 and H2 headers as # Header1 and ## Header2
+                'suppress_errors' => true, // Set to false to show warnings when loading malformed HTML
+                'strip_tags' => false, // Set to true to strip tags that don't have markdown equivalents. N.B. Strips tags, not their content. Useful to clean MS Word HTML output.
+                'bold_style' => '**', // Set to '__' if you prefer the underlined style
+                'italic_style' => '_', // Set to '*' if you prefer the asterisk style
+                'remove_nodes' => '', // space-separated list of dom nodes that should be removed. example: 'meta style script'
+                'hard_break' => false, // Set to true to turn <br> into `\n` instead of `  \n`
+                'list_item_style' => '-', // Set the default character for each <li> in a <ul>. Can be '-', '*', or '+'
+            );
 
-        $this->environment = Environment::createDefaultEnvironment($defaults);
+            $this->environment = Environment::createDefaultEnvironment($defaults);
 
-        $this->environment->getConfig()->merge($options);
+            $this->environment->getConfig()->merge($options);
+        }
     }
 
     /**
@@ -61,9 +67,25 @@ class HtmlConverter
     /**
      * Convert
      *
+     * @see HtmlConverter::convert
+     *
+     * @param string $html
+     *
+     * @return string The Markdown version of the html
+     */
+    public function __invoke($html)
+    {
+        return $this->convert($html);
+    }
+
+    /**
+     * Convert
+     *
      * Loads HTML and passes to getMarkdown()
      *
-     * @param $html
+     * @param string $html
+     *
+     * @throws \InvalidArgumentException
      *
      * @return string The Markdown version of the html
      */
@@ -86,9 +108,7 @@ class HtmlConverter
         // Store the now-modified DOMDocument as a string
         $markdown = $document->saveHTML();
 
-        $markdown = $this->sanitize($markdown);
-
-        return $markdown;
+        return $this->sanitize($markdown);
     }
 
     /**
@@ -129,7 +149,8 @@ class HtmlConverter
     private function convertChildren(ElementInterface $element)
     {
         // Don't convert HTML code inside <code> and <pre> blocks to Markdown - that should stay as HTML
-        if ($element->isDescendantOf(array('pre', 'code'))) {
+        // except if the current node is a code tag, which needs to be converted by the CodeConverter.
+        if ($element->isDescendantOf(array('pre', 'code')) && $element->getTagName() !== 'code') {
             return;
         }
 
@@ -183,12 +204,29 @@ class HtmlConverter
     protected function sanitize($markdown)
     {
         $markdown = html_entity_decode($markdown, ENT_QUOTES, 'UTF-8');
-        $markdown = html_entity_decode($markdown, ENT_QUOTES, 'UTF-8'); // Double decode to cover cases like &amp;nbsp; http://www.php.net/manual/en/function.htmlentities.php#99984
         $markdown = preg_replace('/<!DOCTYPE [^>]+>/', '', $markdown); // Strip doctype declaration
-        $unwanted = array('<html>', '</html>', '<body>', '</body>', '<head>', '</head>', '<?xml encoding="UTF-8">', '&#xD;');
-        $markdown = str_replace($unwanted, '', $markdown); // Strip unwanted tags
-        $markdown = trim($markdown, "\n\r\0\x0B");
+        $markdown = trim($markdown); // Remove blank spaces at the beggining of the html
 
-        return $markdown;
+        /*
+         * Removing unwanted tags. Tags should be added to the array in the order they are expected.
+         * XML, html and body opening tags should be in that order. Same case with closing tags
+         */
+        $unwanted = array('<?xml encoding="UTF-8">', '<html>', '</html>', '<body>', '</body>', '<head>', '</head>', '&#xD;');
+
+        foreach ($unwanted as $tag) {
+            if (strpos($tag, '/') === false) {
+                // Opening tags
+                if (strpos($markdown, $tag) === 0) {
+                    $markdown = substr($markdown, strlen($tag));
+                }
+            } else {
+                // Closing tags
+                if (strpos($markdown, $tag) === strlen($markdown) - strlen($tag)) {
+                    $markdown = substr($markdown, 0, -strlen($tag));
+                }
+            }
+        }
+
+        return trim($markdown, "\n\r\0\x0B");
     }
 }
