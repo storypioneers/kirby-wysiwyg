@@ -31,13 +31,20 @@ class EmphasisConverter implements ConverterInterface, ConfigurationAwareInterfa
         $tag = $element->getTagName();
         $value = $element->getValue();
 
+        if (!trim($value)) {
+            return $value;
+        }
+
         if ($tag === 'i' || $tag === 'em') {
             $style = $this->config->getOption('italic_style');
         } else {
             $style = $this->config->getOption('bold_style');
         }
 
-        return $style . $value . $style;
+        $prefix = ltrim($value) !== $value ? ' ' : '';
+        $suffix = rtrim($value) !== $value ? ' ' : '';
+
+        return $prefix . $style . trim($value) . $style . $suffix;
     }
 
     /**
